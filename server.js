@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // DB Config
-const db = config.get('mongoURI');
+const db = config.get('MONGO_URI');
 
 // Connect to MongoDB
 mongoose
@@ -24,6 +24,7 @@ mongoose
 
 // Routes
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

@@ -1,6 +1,6 @@
 {
-  "mongoURI": "mongodb+srv://antonio:123@cluster3-1pjnn.mongodb.net/family_dog?retryWrites=true",
-  "jwtSecret": "mysecretJwt",
+  "MONGO_URI": "mongodb+srv://antonio:123@cluster3-1pjnn.mongodb.net/family_dog?retryWrites=true",
+  "JWT_SECRET": "mysecretJwt",
   "GMAIL_USERNAME": "noreplyfamilydog@gmail.com",
   "GMAIL_PASSWORD": "familydog123!",
   "VERIFICATION_EXPIRATION": "21600"

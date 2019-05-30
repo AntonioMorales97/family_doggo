@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
       } else {
         // Delete expired user...
         User.findByIdAndRemove(user._id, err => {
-          if (err) return res.status(500).send({ msg: err.message });
+          if (err) return res.status(500).json({ msg: err.message });
         });
       }
     }
@@ -58,9 +58,9 @@ router.post('/', (req, res) => {
 
     // Create salt and hash
     bcrypt.genSalt(10, (err, salt) => {
-      if (err) return res.status(500).send({ msg: err.message });
+      if (err) return res.status(500).json({ msg: err.message });
       bcrypt.hash(newUser.password, salt, (err, hash) => {
-        if (err) return res.status(500).send({ msg: err.message });
+        if (err) return res.status(500).json({ msg: err.message });
         newUser.password = hash; //set hash
         // Save user
         newUser.save().then(user => {
@@ -91,8 +91,8 @@ router.post('/', (req, res) => {
             };
 
             transporter.sendMail(mailOptions, err => {
-              if (err) return res.status(500).send({ msg: err.message });
-              res.status(200).send({
+              if (err) return res.status(500).json({ msg: err.message });
+              res.status(200).json({
                 msg: `A verification email has been sent to ${email} and will expire in ${verificationExpiration /
                   (60 * 60)} hours`
               });
@@ -104,7 +104,7 @@ router.post('/', (req, res) => {
   });
 });
 
-// @route   POST api/users/confirmation/:token
+// @route   GET api/users/confirmation/:token
 // @desc    Verification of email
 // @access  Public
 router.get('/confirmation/:token', (req, res) => {
@@ -112,21 +112,21 @@ router.get('/confirmation/:token', (req, res) => {
     if (!token)
       return res
         .status(400)
-        .send({ msg: 'Token does not exists. Token may have expired.' });
+        .json({ msg: 'Token does not exists. Token may have expired.' });
 
     // Token exists, find user
     User.findOne({ _id: token._userId }).then(user => {
       if (!user)
-        return res.status(400).send({ msg: 'No user matches this token.' });
+        return res.status(400).json({ msg: 'No user matches this token.' });
       if (user.isVerified)
         return res
           .status(400)
-          .send({ msg: 'This user has already been verified.' });
+          .json({ msg: 'This user has already been verified.' });
 
       // Verify user and save
       user.isVerified = true;
       user.save().then(user => {
-        res.status(200).send({
+        res.status(200).json({
           msg: `Welcome ${
             user.name
           }, your account has been verified. Please log in.`
