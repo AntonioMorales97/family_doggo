@@ -11,13 +11,16 @@ const VerificationTokenSchema = new Schema({
   },
   token: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   createdAt: {
     type: Date,
     required: true,
     default: Date.now,
-    expires: verificationExpiration
+    index: {
+      expireAfterSeconds: verificationExpiration
+    }
   }
 });
 

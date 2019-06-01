@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const config = require('config');
+const verificationExpiration = config.get('VERIFICATION_EXPIRATION');
 
 const UserSchema = new Schema({
   name: {
@@ -24,6 +26,14 @@ const UserSchema = new Schema({
   familyId: String,
   createdAt: {
     type: Date,
+    default: Date.now,
+    index: {
+      expireAfterSeconds: verificationExpiration
+    }
+  },
+  registrationDate: {
+    type: Date,
+    required: true,
     default: Date.now
   }
 });

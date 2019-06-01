@@ -40,10 +40,11 @@ router.post('/', (req, res) => {
         verificationExpiration
       ) {
         return res.status(400).json({
-          msg: 'That email has been registered but not verified. Check email.'
+          msg:
+            'That email has been registered but not verified. Please check your email and verify'
         });
       } else {
-        // Delete expired user...
+        // Delete expired user if mongodb has not already removed it...
         User.findByIdAndRemove(user._id, err => {
           if (err) return res.status(500).json({ msg: err.message });
         });
@@ -123,8 +124,9 @@ router.get('/confirmation/:token', (req, res) => {
           .status(400)
           .json({ msg: 'This user has already been verified.' });
 
-      // Verify user and save
+      // Verify user and save. Also remove expiration
       user.isVerified = true;
+      user.createdAt = undefined;
       user.save().then(user => {
         res.status(200).json({
           msg: `Welcome ${
