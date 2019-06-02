@@ -18,9 +18,7 @@ const VerificationTokenSchema = new Schema({
     type: Date,
     required: true,
     default: Date.now,
-    index: {
-      expireAfterSeconds: verificationExpiration
-    }
+    expires: verificationExpiration
   }
 });
 

@@ -3,5 +3,5 @@
   "JWT_SECRET": "mysecretJwt",
   "GMAIL_USERNAME": "noreplyfamilydog@gmail.com",
   "GMAIL_PASSWORD": "familydog123!",
-  "VERIFICATION_EXPIRATION": "21600"
+  "VERIFICATION_EXPIRATION": 21600
 }
