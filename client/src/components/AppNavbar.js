@@ -10,10 +10,18 @@ import {
   Container
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Logout from './auth/Logout';
+
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class AppNavbar extends Component {
   state = {
     isOpen: false
+  };
+
+  static propTypes = {
+    auth: PropTypes.object.isRequired
   };
 
   toggle = () => {
@@ -23,6 +31,8 @@ class AppNavbar extends Component {
   };
 
   render() {
+    const { isAuthenticated, user } = this.props.auth;
+
     const guestLinks = (
       <Fragment>
         <NavItem>
@@ -43,6 +53,29 @@ class AppNavbar extends Component {
       </Fragment>
     );
 
+    const authLinks = (
+      <Fragment>
+        <NavItem>
+          <span className='navbar-text mr-3'>
+            <strong>{user ? `Welcome ${user.name}` : ''}</strong>
+          </span>
+        </NavItem>
+        <NavItem>
+          <NavLink style={navLinkStyle} tag={Link} to='/'>
+            Home
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink style={navLinkStyle} tag={Link} to='/dashboard'>
+            Dashboard
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <Logout />
+        </NavItem>
+      </Fragment>
+    );
+
     return (
       <div>
         <Navbar color='dark' dark expand='sm' className='mb-3 fixed-top'>
@@ -53,7 +86,7 @@ class AppNavbar extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>
-                {guestLinks}
+                {isAuthenticated ? authLinks : guestLinks}
               </Nav>
             </Collapse>
           </Container>
@@ -67,4 +100,11 @@ const navLinkStyle = {
   fontWeight: 'bold'
 };
 
-export default AppNavbar;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(AppNavbar);

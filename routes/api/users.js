@@ -95,7 +95,7 @@ router.post('/', (req, res) => {
               if (err) return res.status(500).json({ msg: err.message });
               res.status(200).json({
                 msg: `A verification email has been sent to ${email} and will expire in ${verificationExpiration /
-                  (60 * 60)} hours`
+                  (60 * 60)} hours. Please verify and then login.`
               });
             });
           });
