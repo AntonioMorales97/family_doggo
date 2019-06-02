@@ -1,0 +1,91 @@
+// Main Sass File
+@import 'config';
+@import 'nav';
+body {
+  line-height: 1.4;
+  background: $bg-color;
+  height: 100vh;
+}
+
+// HOME-SECTION
+#home-section {
+  background: url('../img/home_dog.jpg') no-repeat;
+  min-height: 700px;
+  background-size: cover;
+  background-attachment: center;
+  background-position-x: 100%;
+  background-position-y: auto;
+  color: set-text-color($font-color);
+
+  .dark-overlay {
+    background-color: $dark-overlay;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 700px;
+  }
+
+  .home-inner {
+    padding-top: 100px;
+    text-align: center;
+  }
+
+  .fa {
+    color: $success-color;
+    background: #fff;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: $icon-size;
+  }
+
+  .key {
+    font-size: 1.5rem;
+  }
+}
+
+// ABOUT-SECTION
+#about-section {
+  border-top: $primary-color 3px solid;
+  color: set-text-color($font-color);
+
+  img {
+    height: 450px;
+  }
+}
+
+// FOOTER
+#main-footer {
+  border-top: $primary-color 3px solid;
+  color: set-text-color($font-color);
+}
+
+// REGISTER-SECTION
+#login-section,
+#register-section {
+  background: url('../img/home_dog.jpg') no-repeat;
+  min-height: calc(100vh - 120px);
+  background-size: cover;
+  background-attachment: center;
+  background-position-x: 100%;
+  background-position-y: auto;
+  color: set-text-color($font-color);
+
+  .login-inner,
+  .register-inner {
+    padding-top: 100px;
+
+    .light-overlay {
+      background-color: $light-overlay;
+      border-radius: 5px;
+    }
+
+    .form-container {
+      padding-bottom: 10px;
+      padding-top: 10px;
+      color: $font-color;
+    }
+  }
+}
+
+@import 'mobile';
