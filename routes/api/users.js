@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const config = require('config');
-const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const {
+  userRateLimiter,
+  userSlowDown
+} = require('../../middleware/limitation');
 
 // Gmail Credentials
 const GMAIL_USERNAME = config.get('GMAIL_USERNAME');
@@ -20,7 +23,7 @@ const verificationExpiration = config.get('VERIFICATION_EXPIRATION');
 // @route   POST api/users
 // @desc    Register new user and wait for verification
 // @access  Public
-router.post('/', (req, res) => {
+router.post('/', [userRateLimiter, userSlowDown], (req, res) => {
   const { name, email, password } = req.body;
 
   // Simple validation
@@ -41,7 +44,7 @@ router.post('/', (req, res) => {
       ) {
         return res.status(400).json({
           msg:
-            'That email has been registered but not verified. Please check your email and verify'
+            'That email has been registered but not verified. Please check your email and verify or try again later'
         });
       } else {
         // Delete expired user if mongodb has not already removed it...
@@ -108,34 +111,38 @@ router.post('/', (req, res) => {
 // @route   GET api/users/confirmation/:token
 // @desc    Verification of email
 // @access  Public
-router.get('/confirmation/:token', (req, res) => {
-  VerificationToken.findOne({ token: req.params.token }).then(token => {
-    if (!token)
-      return res
-        .status(400)
-        .json({ msg: 'Token does not exists. Token may have expired.' });
-
-    // Token exists, find user
-    User.findOne({ _id: token._userId }).then(user => {
-      if (!user)
-        return res.status(400).json({ msg: 'No user matches this token.' });
-      if (user.isVerified)
+router.get(
+  '/confirmation/:token',
+  [userRateLimiter, userSlowDown],
+  (req, res) => {
+    VerificationToken.findOne({ token: req.params.token }).then(token => {
+      if (!token)
         return res
           .status(400)
-          .json({ msg: 'This user has already been verified.' });
+          .json({ msg: 'Token does not exists. Token may have expired.' });
 
-      // Verify user and save. Also remove expiration
-      user.isVerified = true;
-      user.createdAt = undefined;
-      user.save().then(user => {
-        res.status(200).json({
-          msg: `Welcome ${
-            user.name
-          }, your account has been verified. Please log in.`
+      // Token exists, find user
+      User.findOne({ _id: token._userId }).then(user => {
+        if (!user)
+          return res.status(400).json({ msg: 'No user matches this token.' });
+        if (user.isVerified)
+          return res
+            .status(400)
+            .json({ msg: 'This user has already been verified.' });
+
+        // Verify user and save. Also remove expiration
+        user.isVerified = true;
+        user.createdAt = undefined;
+        user.save().then(user => {
+          res.status(200).json({
+            msg: `Welcome ${
+              user.name
+            }, your account has been verified. Please log in.`
+          });
         });
       });
     });
-  });
-});
+  }
+);
 
 module.exports = router;
