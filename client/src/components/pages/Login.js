@@ -46,6 +46,7 @@ class Login extends Component {
   }
 
   onSubmit = e => {
+    this.props.clearErrors();
     e.preventDefault();
 
     const { email, password } = this.state;
