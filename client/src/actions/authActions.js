@@ -135,9 +135,12 @@ export const login = ({ email, password }) => dispatch => {
       });
     })
     .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
-      );
+      let { msg } = err.response.data;
+      const remainingAttempts = err.response.headers['x-ratelimit-remaining'];
+      if (remainingAttempts) {
+        msg = msg + '. Remaining attempts: ' + remainingAttempts;
+      }
+      dispatch(returnErrors({ msg }, err.response.status, 'LOGIN_FAIL'));
       dispatch({
         type: LOGIN_FAIL
       });

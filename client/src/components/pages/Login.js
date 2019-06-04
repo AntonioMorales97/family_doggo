@@ -83,6 +83,7 @@ class Login extends Component {
                       name='email'
                       id='email'
                       placeholder='Email'
+                      autoComplete='username email'
                       className='mb-3'
                       onChange={this.onChange}
                     />
@@ -92,6 +93,7 @@ class Login extends Component {
                       name='password'
                       id='password'
                       placeholder='Password'
+                      autoComplete='current-password'
                       className='mb-3'
                       onChange={this.onChange}
                     />

@@ -108,6 +108,7 @@ class Register extends Component {
                       name='email'
                       id='email'
                       placeholder='Enter Email'
+                      autoComplete='username email'
                       className='mb-3'
                       onChange={this.onChange}
                     />
@@ -117,6 +118,7 @@ class Register extends Component {
                       name='password'
                       id='password'
                       placeholder='Enter Password'
+                      autoComplete='new-password'
                       className='mb-3'
                       onChange={this.onChange}
                     />
@@ -126,6 +128,7 @@ class Register extends Component {
                       name='repeatPassword'
                       id='repeatPassword'
                       placeholder='Repeat Password'
+                      autoComplete='new-password'
                       className='mb-3'
                       onChange={this.onChange}
                     />
