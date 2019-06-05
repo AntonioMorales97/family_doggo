@@ -13,29 +13,48 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
+import { clearSuccess } from '../../actions/successActions';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
-    errorMsg: null
+    errorMsg: null,
+    successMsg: null
   };
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
+    success: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
+    clearErrors: PropTypes.func.isRequired,
+    clearSuccess: PropTypes.func.isRequired
   };
 
+  componentDidMount() {
+    const { success } = this.props;
+    if (success) {
+      this.setState({ successMsg: success.msg.msg });
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    const { error, isAuthenticated } = this.props;
+    const { error, success, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
       // Check for login error
       if (error.id === 'LOGIN_FAIL') {
         this.setState({ errorMsg: error.msg.msg });
       } else {
         this.setState({ errorMsg: null });
+      }
+    }
+
+    if (success !== prevProps.success) {
+      if (success.id === 'LOGIN_SUCCESS') {
+        this.setState({ successMsg: success.msg.msg }); // Redirect here? Instead of if-statement below???
+      } else {
+        this.setState({ successMsg: null });
       }
     }
 
@@ -47,6 +66,7 @@ class Login extends Component {
 
   onSubmit = e => {
     this.props.clearErrors();
+    this.props.clearSuccess();
     e.preventDefault();
 
     const { email, password } = this.state;
@@ -74,6 +94,9 @@ class Login extends Component {
                 <div className='h3 text-center'>Login</div>
                 {this.state.errorMsg ? (
                   <Alert color='danger'>{this.state.errorMsg}</Alert>
+                ) : null}
+                {this.state.successMsg ? (
+                  <Alert color='success'>{this.state.successMsg}</Alert>
                 ) : null}
                 <Form onSubmit={this.onSubmit}>
                   <FormGroup>
@@ -113,10 +136,11 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
+  success: state.success
 });
 
 export default connect(
   mapStateToProps,
-  { login, clearErrors }
+  { login, clearErrors, clearSuccess }
 )(Login);

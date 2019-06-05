@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   Container,
   Button,
@@ -22,7 +23,8 @@ class Register extends Component {
     password: '',
     repeatPassword: '',
     errorMsg: null,
-    successMsg: null
+    successMsg: null,
+    redirect: false
   };
 
   static propTypes = {
@@ -48,6 +50,7 @@ class Register extends Component {
     if (success !== prevProps.success) {
       if (success.id === 'REGISTER_SUCCESS') {
         this.setState({ successMsg: success.msg.msg });
+        this.setState({ redirect: true });
       } else {
         this.setState({ successMsg: null });
       }
@@ -77,9 +80,14 @@ class Register extends Component {
     this.props.register(newUser);
   };
 
+  renderRedirect = () => {
+    if (this.state.redirect) return <Redirect to='/login' />;
+  };
+
   render() {
     return (
       <section id='register-section'>
+        {this.renderRedirect()}
         <div className='register-inner'>
           <Container>
             <div className='light-overlay'>
