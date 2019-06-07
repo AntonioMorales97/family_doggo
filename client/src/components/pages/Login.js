@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   Container,
   Button,
@@ -40,7 +41,7 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { error, success, isAuthenticated } = this.props;
+    const { error, success } = this.props;
     if (error !== prevProps.error) {
       // Check for login error
       if (error.id === 'LOGIN_FAIL') {
@@ -52,15 +53,11 @@ class Login extends Component {
 
     if (success !== prevProps.success) {
       if (success.id === 'LOGIN_SUCCESS') {
-        this.setState({ successMsg: success.msg.msg }); // Redirect here? Instead of if-statement below???
+        this.setState({ successMsg: 'Login successful! :)' });
+        this.props.clearSuccess(); // Do not save...
       } else {
         this.setState({ successMsg: null });
       }
-    }
-
-    // If authenticated redirect to dashboard
-    if (isAuthenticated) {
-      console.log('SUCCESSFUL LOGIN');
     }
   }
 
@@ -84,9 +81,19 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  renderRedirect = () => {
+    if (this.props.isAuthenticated) {
+      const { from } = this.props.location.state || {
+        from: { pathname: '/dashboard' }
+      };
+      return <Redirect to={from} />;
+    }
+  };
+
   render() {
     return (
       <section id='login-section'>
+        {this.renderRedirect()}
         <div className='login-inner'>
           <Container>
             <div className='light-overlay'>

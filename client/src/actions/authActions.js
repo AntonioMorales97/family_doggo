@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { returnErrors } from './errorActions';
 import { returnSuccess } from './successActions';
-
 import {
-  USER_LOADED,
   USER_LOADING,
+  USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -12,14 +11,19 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL
 } from './types';
+import setAuthToken from '../utils/setAuthToken';
 
 // Check token and load user
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = () => dispatch => {
   // User loading
   dispatch({ type: USER_LOADING });
 
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
   axios
-    .get('/api/auth/user', tokenConfig(getState))
+    .get('/api/auth/user')
     .then(res =>
       dispatch({
         type: USER_LOADED,
@@ -129,10 +133,18 @@ export const login = ({ email, password }) => dispatch => {
   axios
     .post('/api/auth', body, config)
     .then(res => {
+      dispatch(
+        returnSuccess(
+          { msg: `Welcome ${res.data.user.name}` },
+          res.status,
+          'LOGIN_SUCCESS'
+        )
+      );
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       });
+      dispatch(loadUser());
     })
     .catch(err => {
       let { msg } = err.response.data;
@@ -148,28 +160,6 @@ export const login = ({ email, password }) => dispatch => {
 };
 
 // Logout User
-export const logout = () => {
-  return {
-    type: LOGOUT_SUCCESS
-  };
-};
-
-// Setup config/headers and token
-export const tokenConfig = getState => {
-  // Get token from localStorage
-  const token = getState().auth.token;
-
-  // Headers
-  const config = {
-    headers: {
-      'Content-type': 'application/json'
-    }
-  };
-
-  // If token, add to headers
-  if (token) {
-    config.headers['x-auth-token'] = token;
-  }
-
-  return config;
+export const logout = () => dispath => {
+  dispath({ type: LOGOUT_SUCCESS });
 };

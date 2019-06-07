@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AppNavbar from './components/AppNavbar';
 import Footer from './components/Footer';
-import Home from './components/pages/Home';
-import Register from './components/pages/Register';
-import Login from './components/pages/Login';
+import Routes from './components/routing/Routes';
 
+//Redux
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/authActions';
+import setAuthToken from './utils/setAuthToken';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss//App.scss';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 class App extends Component {
   componentDidMount() {
@@ -24,9 +28,9 @@ class App extends Component {
         <Router>
           <div className='App'>
             <AppNavbar />
-            <Route exact path='/' component={Home} />
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/login' component={Login} />
+            <Switch>
+              <Route component={Routes} />
+            </Switch>
             <Footer />
           </div>
         </Router>

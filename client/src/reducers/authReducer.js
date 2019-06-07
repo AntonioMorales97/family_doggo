@@ -1,6 +1,6 @@
 import {
-  USER_LOADED,
   USER_LOADING,
+  USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -41,8 +41,7 @@ export default function(state = initalState, action) {
     case REGISTER_SUCCESS:
       return {
         ...state,
-        isAuthenticated: false,
-        isLoading: false
+        isAuthenticated: false
       };
     case AUTH_ERROR:
     case LOGIN_FAIL:
