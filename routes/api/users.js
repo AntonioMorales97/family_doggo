@@ -9,9 +9,9 @@ const {
   userSlowDown
 } = require('../../middleware/limitation');
 
-// Gmail Credentials
-const GMAIL_USERNAME = config.get('GMAIL_USERNAME');
-const GMAIL_PASSWORD = config.get('GMAIL_PASSWORD');
+// Email
+const sendEmail = require('../../email/send');
+const templates = require('../../email/templates');
 
 // Models
 const User = require('../../models/User');
@@ -77,30 +77,14 @@ router.post('/', [userRateLimiter, userSlowDown], (req, res) => {
           // Save verification token
           token.save().then(token => {
             // Send the email
-            var transporter = nodemailer.createTransport({
-              service: 'gmail',
-              auth: { user: GMAIL_USERNAME, pass: GMAIL_PASSWORD }
-            });
-            var mailOptions = {
-              from: GMAIL_USERNAME,
-              to: email,
-              subject: 'Account Verification',
-              text:
-                'Hello,\n\nPlease verify your account by clicking the link: ' +
-                '\nhttp://' +
-                req.headers.host +
-                '/api/users/confirmation/' +
-                token.token +
-                '.\n'
-            };
-
-            transporter.sendMail(mailOptions, err => {
-              if (err) return res.status(500).json({ msg: err.message });
-              res.status(200).json({
-                msg: `A verification email has been sent to ${email} and will expire in ${verificationExpiration /
-                  (60 * 60)} hours. Please verify and then login.`
-              });
-            });
+            sendEmail(email, templates.confirm(token.token))
+              .then(() =>
+                res.status(200).json({
+                  msg: `A verification email has been sent to ${email} and will expire in ${verificationExpiration /
+                    (60 * 60)} hours. Please verify and then login`
+                })
+              )
+              .catch(err => res.status(500).json({ msg: err.message }));
           });
         });
       });

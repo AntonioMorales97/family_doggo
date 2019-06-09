@@ -2,8 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
+const cors = require('cors');
+const { CLIENT_ORIGIN } = require('./config/config');
 
 const app = express();
+
+// Only allow request from the client
+app.use(
+  cors({
+    origin: CLIENT_ORIGIN
+  })
+);
 
 // Bodyparser
 app.use(express.json());
