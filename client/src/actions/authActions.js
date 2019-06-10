@@ -9,7 +9,9 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  CONFIRMATION_SUCCESS,
+  CONFIRMATION_FAIL
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -162,4 +164,28 @@ export const login = ({ email, password }) => dispatch => {
 // Logout User
 export const logout = () => dispath => {
   dispath({ type: LOGOUT_SUCCESS });
+};
+
+// Confirm User
+export const confirm = token => dispatch => {
+  axios
+    .get(`/api/users/confirmation/${token}`)
+    .then(res => {
+      dispatch(returnSuccess(res.data, res.status, 'CONFIRMATION_SUCCESS'));
+      dispatch({
+        type: CONFIRMATION_SUCCESS
+      });
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          'CONFIRMATION_FAIL'
+        )
+      );
+      dispatch({
+        type: CONFIRMATION_FAIL
+      });
+    });
 };

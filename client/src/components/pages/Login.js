@@ -7,7 +7,8 @@ import {
   FormGroup,
   Label,
   Input,
-  Alert
+  Alert,
+  Spinner
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
@@ -21,7 +22,8 @@ class Login extends Component {
     email: '',
     password: '',
     errorMsg: null,
-    successMsg: null
+    successMsg: null,
+    tryLogin: false
   };
 
   static propTypes = {
@@ -46,6 +48,7 @@ class Login extends Component {
       // Check for login error
       if (error.id === 'LOGIN_FAIL') {
         this.setState({ errorMsg: error.msg.msg });
+        this.setState({ tryLogin: false });
       } else {
         this.setState({ errorMsg: null });
       }
@@ -54,6 +57,7 @@ class Login extends Component {
     if (success !== prevProps.success) {
       if (success.id === 'LOGIN_SUCCESS') {
         this.setState({ successMsg: 'Login successful! :)' });
+        this.setState({ tryLogin: false });
         this.props.clearSuccess(); // Do not save...
       } else {
         this.setState({ successMsg: null });
@@ -62,6 +66,7 @@ class Login extends Component {
   }
 
   onSubmit = e => {
+    this.setState({ tryLogin: true });
     this.props.clearErrors();
     this.props.clearSuccess();
     e.preventDefault();
@@ -128,7 +133,7 @@ class Login extends Component {
                       onChange={this.onChange}
                     />
                     <Button color='dark' style={{ marginTop: '2rem' }} block>
-                      Login
+                      {this.state.tryLogin ? <Spinner size='sm' /> : 'Login'}
                     </Button>
                   </FormGroup>
                 </Form>

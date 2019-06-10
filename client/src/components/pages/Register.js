@@ -7,7 +7,8 @@ import {
   FormGroup,
   Label,
   Input,
-  Alert
+  Alert,
+  Spinner
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
@@ -24,7 +25,8 @@ class Register extends Component {
     repeatPassword: '',
     errorMsg: null,
     successMsg: null,
-    redirect: false
+    redirect: false,
+    sendingEmail: false
   };
 
   static propTypes = {
@@ -42,6 +44,7 @@ class Register extends Component {
       // Check for register error
       if (error.id === 'REGISTER_FAIL') {
         this.setState({ errorMsg: error.msg.msg });
+        this.setState({ sendingEmail: false });
       } else {
         this.setState({ errorMsg: null });
       }
@@ -51,6 +54,7 @@ class Register extends Component {
       if (success.id === 'REGISTER_SUCCESS') {
         this.setState({ successMsg: success.msg.msg });
         this.setState({ redirect: true });
+        this.setState({ sendingEmail: false });
       } else {
         this.setState({ successMsg: null });
       }
@@ -62,6 +66,7 @@ class Register extends Component {
   };
 
   onSubmit = e => {
+    this.setState({ sendingEmail: true });
     this.props.clearErrors();
     this.props.clearSuccess();
     e.preventDefault();
@@ -141,7 +146,11 @@ class Register extends Component {
                       onChange={this.onChange}
                     />
                     <Button color='dark' style={{ marginTop: '2rem' }} block>
-                      Register
+                      {this.state.sendingEmail ? (
+                        <Spinner size='sm' />
+                      ) : (
+                        'Register'
+                      )}
                     </Button>
                   </FormGroup>
                 </Form>
