@@ -8,14 +8,9 @@ import Routes from './components/routing/Routes';
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/authActions';
-import setAuthToken from './utils/setAuthToken';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss//App.scss';
-
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
 
 class App extends Component {
   componentDidMount() {

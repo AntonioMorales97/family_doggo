@@ -13,17 +13,11 @@ import {
   CONFIRMATION_SUCCESS,
   CONFIRMATION_FAIL
 } from './types';
-import setAuthToken from '../utils/setAuthToken';
 
 // Check token and load user
 export const loadUser = () => dispatch => {
   // User loading
   dispatch({ type: USER_LOADING });
-
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
   axios
     .get('/api/auth/user')
     .then(res =>
@@ -162,8 +156,17 @@ export const login = ({ email, password }) => dispatch => {
 };
 
 // Logout User
-export const logout = () => dispath => {
-  dispath({ type: LOGOUT_SUCCESS });
+export const logout = () => dispatch => {
+  axios
+    .post('/api/auth/logout')
+    .then(res => {
+      dispatch({ type: LOGOUT_SUCCESS });
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'LOGOUT_FAIL')
+      );
+    });
 };
 
 // Confirm User

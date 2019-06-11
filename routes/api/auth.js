@@ -41,8 +41,15 @@ router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
         { expiresIn: 3600 },
         (err, token) => {
           if (err) throw err;
+
+          const cookieConfig = {
+            httpOnly: true,
+            maxAge: 3600 * 1000,
+            signed: true
+          };
+
+          res.cookie('token', token, cookieConfig);
           res.status(200).json({
-            token,
             user: {
               id: user.id,
               name: user.name,
@@ -53,6 +60,14 @@ router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
       );
     });
   });
+});
+
+// @route   POST api/auth/logout
+// @desc    Logout user by removing signed cookie 'token'
+// @access  Public
+router.post('/logout', (req, res) => {
+  res.cookie('token', { expires: Date.now() });
+  res.status(200).send();
 });
 
 // @route   GET api/auth/user

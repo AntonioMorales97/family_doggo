@@ -2,8 +2,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 
 function auth(req, res, next) {
-  const token = req.header('x-auth-token');
-
+  const token = req.signedCookies.token;
   if (!token)
     return res
       .status(401)

@@ -4,9 +4,13 @@ const path = require('path');
 const config = require('config');
 const cors = require('cors');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const { CLIENT_ORIGIN } = require('./config/config');
 
 const app = express();
+
+// Cookie parser
+app.use(cookieParser(config.get('COOKIE_SECRET')));
 
 // Helmet
 app.use(helmet());
