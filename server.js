@@ -3,9 +3,13 @@ const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
 const cors = require('cors');
+const helmet = require('helmet');
 const { CLIENT_ORIGIN } = require('./config/config');
 
 const app = express();
+
+// Helmet
+app.use(helmet());
 
 // Only allow request from the client
 app.use(
