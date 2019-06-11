@@ -10,6 +10,7 @@ import {
   Alert,
   Spinner
 } from 'reactstrap';
+import ForgotPasswordModal from '../ForgotPasswordModal';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -111,7 +112,7 @@ class Login extends Component {
                   <Alert color='success'>{this.state.successMsg}</Alert>
                 ) : null}
                 <Form onSubmit={this.onSubmit}>
-                  <FormGroup>
+                  <FormGroup className='mb-0'>
                     <Label for='email'>Email</Label>
                     <Input
                       type='email'
@@ -141,6 +142,9 @@ class Login extends Component {
                     </div>
                   </FormGroup>
                 </Form>
+                <div className='text-center'>
+                  <ForgotPasswordModal />
+                </div>
               </Container>
             </div>
           </Container>
