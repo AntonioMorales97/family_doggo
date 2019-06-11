@@ -1,12 +1,13 @@
 const nodemailer = require('nodemailer');
+const config = require('config');
 
 const credentials = {
   host: 'smtp.gmail.com',
   port: 465,
   secure: true,
   auth: {
-    user: 'noreplyfamilydog@gmail.com',
-    pass: 'familydog123!'
+    user: config.get('GMAIL_USERNAME'),
+    pass: config.get('GMAIL_PASSWORD')
   }
 };
 
@@ -14,7 +15,7 @@ const transporter = nodemailer.createTransport(credentials);
 
 module.exports = async (to, content) => {
   const contacts = {
-    from: '"Family Dogo" <noreplyfamilydog@gmail.com>',
+    from: `"Family Dogo" <${credentials.auth.user}>`,
     to
   };
 
