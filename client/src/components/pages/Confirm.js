@@ -56,16 +56,6 @@ class Confirm extends Component {
     }
   }
 
-  confirmationSmiley = () => {
-    if (!this.state.confirming) {
-      if (this.state.success) {
-        return <i className='fas fa-grin-alt' />;
-      } else {
-        return <i className='fas fa-frown' />;
-      }
-    }
-  };
-
   render() {
     return (
       <Container>
@@ -73,12 +63,23 @@ class Confirm extends Component {
           {this.state.confirming ? (
             <Spinner size='lg' color='primary' />
           ) : (
-            <Link to='/'>
-              <div className='d-flex justify-content-center'>
-                {this.confirmationSmiley()}
-              </div>
-              <p>{this.state.msg}</p>
-            </Link>
+            <div className='fadeIn'>
+              {this.state.success ? (
+                <Link to='/login' className='text-success'>
+                  <div className='d-flex justify-content-center'>
+                    <i className='fas fa-grin-alt' />
+                  </div>
+                  <p>{this.state.msg}</p>
+                </Link>
+              ) : (
+                <Link to='/' className='text-danger'>
+                  <div className='d-flex justify-content-center'>
+                    <i className='fas fa-frown' />
+                  </div>
+                  <p>{this.state.msg}</p>
+                </Link>
+              )}
+            </div>
           )}
         </div>
       </Container>
