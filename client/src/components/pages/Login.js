@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import {
   Container,
   Button,
@@ -135,6 +135,10 @@ class Login extends Component {
                     <Button color='dark' style={{ marginTop: '2rem' }} block>
                       {this.state.tryLogin ? <Spinner size='sm' /> : 'Login'}
                     </Button>
+                    <div className='text-center mt-3'>
+                      Don't have an account?{' '}
+                      <Link to='/register'>Register</Link>
+                    </div>
                   </FormGroup>
                 </Form>
               </Container>

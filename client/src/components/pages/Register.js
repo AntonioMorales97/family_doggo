@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import {
   Container,
   Button,
@@ -152,6 +152,9 @@ class Register extends Component {
                         'Register'
                       )}
                     </Button>
+                    <div className='text-center mt-3'>
+                      Already have an account? <Link to='/login'>Login</Link>
+                    </div>
                   </FormGroup>
                 </Form>
               </Container>
