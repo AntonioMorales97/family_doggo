@@ -4,9 +4,9 @@ import { Container, Spinner } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { confirm } from './../actions/authActions';
-import { clearErrors } from './../actions/errorActions';
-import { clearSuccess } from './../actions/successActions';
+import { confirm } from './../../actions/authActions';
+import { clearErrors } from './../../actions/errorActions';
+import { clearSuccess } from './../../actions/successActions';
 
 class Confirm extends Component {
   state = {

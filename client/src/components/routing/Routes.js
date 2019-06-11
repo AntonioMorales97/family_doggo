@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Confirm from '../Confirm';
+import Confirm from '../pages/Confirm';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
