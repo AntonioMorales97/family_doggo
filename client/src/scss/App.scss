@@ -60,7 +60,7 @@ body {
   color: set-text-color($font-color);
 }
 
-// REGISTER-SECTION
+// REGISTER-SECTION & LOGIN-SECTION
 #login-section,
 #register-section {
   background: url('../img/home_dog.jpg') no-repeat;
@@ -88,24 +88,37 @@ body {
   }
 }
 
+// FADE (For modals...)
+.fade {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
 // CONFIRM
 .confirm {
   min-height: calc(100vh - 120px);
 
   .fas {
     font-size: 100px;
-    color: $success-color;
   }
 
   p {
     margin-top: 15px;
-    color: $success-color;
     font-size: 50px;
   }
 
   a {
     text-decoration: none;
   }
+}
+
+// FADE IN
+.fadeIn {
+  animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -webkit-animation: fadein 2s;
+  -o-animation: fadein 2s;
 }
 
 @import 'mobile';
