@@ -58,6 +58,10 @@ body {
 #main-footer {
   border-top: $primary-color 3px solid;
   color: set-text-color($font-color);
+
+  p {
+    margin: 0;
+  }
 }
 
 // REGISTER-SECTION & LOGIN-SECTION
@@ -110,6 +114,18 @@ body {
 
   a {
     text-decoration: none;
+  }
+}
+
+// COOKIE-INFO FROM cookieNotify
+.cookie-info {
+  border-radius: 10px;
+  background-color: rgb(24, 24, 24);
+
+  .cookie-body {
+    h1 {
+      font-size: 1.5rem;
+    }
   }
 }
 

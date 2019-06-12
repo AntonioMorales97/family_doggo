@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
+import CookieInformationModal from './CookieInformationModal';
 
 class Footer extends Component {
   render() {
@@ -10,7 +11,8 @@ class Footer extends Component {
             <div className='col text-center'>
               <div className='py-4'>
                 <h1 className='h3'>Family Dogo</h1>
-                <p>Copyright &copy; 2019</p>
+                <p>Copyright &copy; 2019 </p>
+                <CookieInformationModal buttonText='Cookie Policy' />
               </div>
             </div>
           </div>

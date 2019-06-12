@@ -11,6 +11,7 @@ import {
   Spinner
 } from 'reactstrap';
 import ForgotPasswordModal from '../ForgotPasswordModal';
+import { toast } from 'react-toastify';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -57,6 +58,7 @@ class Login extends Component {
 
     if (success !== prevProps.success) {
       if (success.id === 'LOGIN_SUCCESS') {
+        toast.dismiss(); //Dismiss all toasts (e.g Cookie Toast)
         this.setState({ successMsg: 'Login successful! :)' });
         this.setState({ tryLogin: false });
         this.props.clearSuccess(); // Do not save...
