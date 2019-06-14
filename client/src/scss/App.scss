@@ -64,9 +64,10 @@ body {
   }
 }
 
-// REGISTER-SECTION & LOGIN-SECTION
+// REGISTER-SECTION & LOGIN-SECTION & RESET-PASSWORD-PAGE
 #login-section,
-#register-section {
+#register-section,
+#reset-password-page {
   background: url('../img/home_dog.jpg') no-repeat;
   min-height: calc(100vh - 120px);
   background-size: cover;
@@ -76,7 +77,8 @@ body {
   color: set-text-color($font-color);
 
   .login-inner,
-  .register-inner {
+  .register-inner,
+  .reset-password-inner {
     padding-top: 100px;
 
     .light-overlay {
