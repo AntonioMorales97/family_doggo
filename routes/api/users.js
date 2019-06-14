@@ -81,7 +81,10 @@ router.post('/', [userRateLimiter, userSlowDown], (req, res) => {
           // Save verification token
           token.save().then(token => {
             // Send the email
-            sendEmail(email, templates.confirm(token.token))
+            sendEmail(
+              email,
+              templates.confirm(token.token, verificationExpiration / (60 * 60))
+            )
               .then(() =>
                 res.status(200).json({
                   msg: `A verification email has been sent to ${email} and will expire in ${verificationExpiration /

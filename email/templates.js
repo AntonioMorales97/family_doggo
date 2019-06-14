@@ -1,10 +1,13 @@
 const { CLIENT_ORIGIN } = require('../config/config');
 
 module.exports = {
-  confirm: token => ({
-    subject: 'Confirm Email',
+  confirm: (token, expirationHours) => ({
+    subject: 'Account verification',
     html: `
     <h1>Hello,</h1>
+    <p>This mail has been sent to you so you can verify your email address which you provided for us. If 
+    this was not you, ignore this email and your email address will remain unverified. The link will expire 
+    in ${expirationHours} hours.</p>
           <a href='${CLIENT_ORIGIN}/confirm/${token}'>
             Click to verify email and account
           </a>
