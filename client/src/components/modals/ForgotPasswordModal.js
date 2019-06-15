@@ -129,7 +129,6 @@ class ForgotPasswordModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
   success: state.success
 });
