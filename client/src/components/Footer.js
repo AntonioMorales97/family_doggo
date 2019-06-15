@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
-import CookieInformationModal from './CookieInformationModal';
+import CookieInformationModal from './modals/CookieInformationModal';
 
 class Footer extends Component {
   render() {

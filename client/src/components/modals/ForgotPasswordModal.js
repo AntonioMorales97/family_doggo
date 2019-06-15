@@ -15,9 +15,9 @@ import { toast } from 'react-toastify';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { forgotPassword } from './../actions/authActions';
-import { clearErrors } from './../actions/errorActions';
-import { clearSuccess } from './../actions/successActions';
+import { forgotPassword } from './../../actions/authActions';
+import { clearErrors } from './../../actions/errorActions';
+import { clearSuccess } from './../../actions/successActions';
 
 class ForgotPasswordModal extends Component {
   state = {

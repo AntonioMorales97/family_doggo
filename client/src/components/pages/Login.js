@@ -10,7 +10,7 @@ import {
   Alert,
   Spinner
 } from 'reactstrap';
-import ForgotPasswordModal from '../ForgotPasswordModal';
+import ForgotPasswordModal from '../modals/ForgotPasswordModal';
 import { toast } from 'react-toastify';
 
 import { connect } from 'react-redux';

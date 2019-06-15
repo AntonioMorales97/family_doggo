@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { Container, Button } from 'reactstrap';
-import CookieInformationModal from '../components/CookieInformationModal';
+import CookieInformationModal from '../components/modals/CookieInformationModal';
 
 const setCookieConsent = () => {
   localStorage.setItem('cookieConsent', 'true');
