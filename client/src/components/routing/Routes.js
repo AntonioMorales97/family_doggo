@@ -18,8 +18,8 @@ const Routes = () => {
       <Route exact path='/' component={Home} />
       <Route exact path='/register' component={Register} />
       <Route exact path='/login' component={Login} />
-      <PrivateRoute exact path='/Dashboard' component={Dashboard} />
-      <PrivateRoute exact path='/TestPrivate' component={TestPrivate} />
+      <PrivateRoute exact path='/dashboard' component={Dashboard} />
+      <PrivateRoute exact path='/testprivate' component={TestPrivate} />
     </Switch>
   );
 };
