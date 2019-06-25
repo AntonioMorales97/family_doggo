@@ -48,7 +48,7 @@ router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
             signed: true
           };
 
-          res.cookie('token', token, cookieConfig);
+          res.cookie(config.get('COOKIE_USER_TOKEN'), token, cookieConfig);
           res.status(200).json({
             user: {
               id: user.id,
@@ -66,7 +66,7 @@ router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
 // @desc    Logout user by removing signed cookie 'token'
 // @access  Public
 router.post('/logout', (req, res) => {
-  res.cookie('token', { expires: Date.now() });
+  res.cookie(config.get('COOKIE_USER_TOKEN'), { expires: Date.now() });
   res.status(200).send();
 });
 
