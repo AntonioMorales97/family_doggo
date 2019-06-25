@@ -3,7 +3,6 @@
   "JWT_SECRET": "mysecretJwt",
   "COOKIE_SECRET": "VERY_SECRET",
   "COOKIE_USER_TOKEN": "token",
-  "COOKIE_USER_FAMILY": "family",
   "GMAIL_USERNAME": "noreplyfamilydog@gmail.com",
   "GMAIL_PASSWORD": "familydog123!",
   "VERIFICATION_EXPIRATION": 21600,
