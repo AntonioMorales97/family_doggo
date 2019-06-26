@@ -23,10 +23,12 @@ const UserSchema = new Schema({
   },
   passwordResetToken: String,
   passwordResetExpires: Date,
-  familyId: String,
+  _familyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Family'
+  },
   createdAt: {
     type: Date,
-    default: Date.now,
     expires: verificationExpiration
   },
   registrationDate: {

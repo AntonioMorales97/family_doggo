@@ -61,7 +61,8 @@ router.post('/', [userRateLimiter, userSlowDown], (req, res) => {
     const newUser = new User({
       name,
       email,
-      password
+      password,
+      createdAt: Date.now()
     });
 
     // Create salt and hash
