@@ -83,7 +83,7 @@ router.get('/leave', auth, (req, res) => {
           family.numberOfMembers = numberOfMembers;
           family.save();
         } else {
-          family.remove(); // if 0 members, remove
+          family.remove(); // if 0 members, remove REMOVE DOGS???
         }
       });
     });
@@ -187,7 +187,7 @@ router.get('/join-family/:token', (req, res) => {
               res.status(200).json({
                 msg: `Successfully joined family. A confirmation email has been sent to ${
                   user.email
-                }`
+                }. Login to start adding walks with your family!`
               });
               let { numberOfMembers } = family;
               numberOfMembers++;

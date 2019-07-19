@@ -8,12 +8,16 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   CONFIRMATION_SUCCESS,
-  CONFIRMATION_FAIL
+  CONFIRMATION_FAIL,
+  LEAVE_FAMILY_SUCCESS,
+  HAS_FAMILY,
+  REGISTER_FAMILY_SUCCESS
 } from '../actions/types';
 
 const initalState = {
   isAuthenticated: null,
   isLoading: false,
+  hasFamily: false,
   user: null
 };
 
@@ -48,6 +52,17 @@ export default function(state = initalState, action) {
         ...state,
         isAuthenticated: false
       };
+    case HAS_FAMILY:
+    case REGISTER_FAMILY_SUCCESS:
+      return {
+        ...state,
+        hasFamily: true
+      };
+    case LEAVE_FAMILY_SUCCESS:
+      return {
+        ...state,
+        hasFamily: false
+      };
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
@@ -57,7 +72,8 @@ export default function(state = initalState, action) {
         ...state,
         user: null,
         isAuthenticated: false,
-        isLoading: false
+        isLoading: false,
+        hasFamily: false
       };
     default:
       return state;

@@ -15,7 +15,10 @@ import {
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAIL,
   RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAIL
+  RESET_PASSWORD_FAIL,
+  HAS_FAMILY,
+  FAMILY_JOIN_SUCCESS,
+  FAMILY_JOIN_FAIL
 } from './types';
 
 // Check token and load user
@@ -24,12 +27,13 @@ export const loadUser = () => dispatch => {
   dispatch({ type: USER_LOADING });
   axios
     .get('/api/auth/user')
-    .then(res =>
+    .then(res => {
+      if (res.data._familyId) dispatch({ type: HAS_FAMILY });
       dispatch({
         type: USER_LOADED,
         payload: res.data
-      })
-    )
+      });
+    })
     .catch(err => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
@@ -193,6 +197,26 @@ export const confirm = token => dispatch => {
       );
       dispatch({
         type: CONFIRMATION_FAIL
+      });
+    });
+};
+
+// Accept invitation to family
+export const acceptFamilyInvite = token => dispatch => {
+  axios
+    .get(`/api/dashboard/family/join-family/${token}`)
+    .then(res => {
+      dispatch(returnSuccess(res.data, res.status, 'FAMILY_JOIN_SUCCESS'));
+      dispatch({
+        type: FAMILY_JOIN_SUCCESS
+      });
+    })
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'FAMILY_JOIN_FAIL')
+      );
+      dispatch({
+        type: FAMILY_JOIN_FAIL
       });
     });
 };

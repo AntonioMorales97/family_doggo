@@ -94,6 +94,56 @@ body {
   }
 }
 
+#dashboard-page {
+  background: url('../img/dashboard_background.jpg') no-repeat;
+  min-height: calc(100vh - 120px);
+  background-size: cover;
+  background-attachment: center;
+  background-position-x: 100%;
+  background-position-y: auto;
+  color: set-text-color($font-color);
+
+  .dashboard-inner {
+    padding-top: 100px;
+    padding-bottom: 10px;
+
+    .light-bg {
+      background-color: $bg-color-light;
+      border-radius: 5px;
+    }
+
+    .dashboard-container {
+      padding-bottom: 10px;
+      padding-top: 10px;
+      color: $font-color;
+
+      hr {
+        margin-top: 0;
+        margin-bottom: 1.3rem;
+        border: none;
+        border-bottom: 1px solid #1f1209;
+        box-shadow: 0 10px 10px -10px #333;
+        height: 30px;
+      }
+
+      .list-group {
+        max-height: 650px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .walk-list {
+          //DELETE BUTTON
+          button {
+            height: 40px;
+            font-size: 1rem;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+
 // FADE (For modals...)
 .fade {
   opacity: 1;
@@ -101,7 +151,7 @@ body {
   transition: opacity 300ms, transform 300ms;
 }
 
-// CONFIRM
+// CONFIRM-PAGE
 .confirm {
   min-height: calc(100vh - 120px);
 
@@ -128,6 +178,44 @@ body {
     h1 {
       font-size: 1.5rem;
     }
+  }
+}
+
+// CONFIRM DIALOG
+:root {
+  --reach-dialog: 1;
+}
+
+[data-reach-dialog-overlay] {
+  background: hsla(0, 0%, 0%, 0.33);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  z-index: 9999;
+
+  [data-reach-dialog-content] {
+    width: 80%;
+    max-width: 500px;
+    margin: 10vh auto;
+    background: white;
+    padding: 1.5rem;
+    border: rgba(184, 3, 3, 0.993) solid 2px;
+
+    h3 {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+// DOG-LIST (IN HANDLE-FAMILY MODAL)
+.dog-list-container {
+  .list-group {
+    max-height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
