@@ -40,13 +40,11 @@ router.post('/', auth, (req, res) => {
       _familyId: user._familyId
     });
 
-    dog
-      .save()
-      .then(savedDog =>
-        res
-          .status(200)
-          .json({ msg: `${savedDog.name} was added to the family!` })
-      );
+    dog.save().then(savedDog =>
+      res.status(200).json({
+        newDog: savedDog
+      })
+    );
   });
 });
 
