@@ -16,6 +16,7 @@ const templates = require('../../../email/templates');
 const User = require('../../../models/User');
 const FamilyInvite = require('../../../models/FamilyInvite');
 const Family = require('../../../models/Family');
+const Dog = require('../../../models/Dog');
 
 // Constants
 const invitationExpiration = config.get('INVITATION_EXPIRATION');
@@ -83,7 +84,12 @@ router.get('/leave', auth, (req, res) => {
           family.numberOfMembers = numberOfMembers;
           family.save();
         } else {
-          family.remove(); // if 0 members, remove REMOVE DOGS???
+          family.remove().then(() => {
+            //Delete dogs too
+            Dog.deleteMany({ _familyId: family._id }).catch(err =>
+              console.log(err.message)
+            );
+          });
         }
       });
     });
