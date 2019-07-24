@@ -1,4 +1,4 @@
-let server = 'https://familydoggo.herokuapp.com';
+let server = process.env.REACT_APP_SERVER_API;
 
 const env = process.env.NODE_ENV;
 
