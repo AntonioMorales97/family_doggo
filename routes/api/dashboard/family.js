@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const config = require('config');
 const crypto = require('crypto');
 const {
   userRateLimiter,
@@ -19,7 +18,7 @@ const Family = require('../../../models/Family');
 const Dog = require('../../../models/Dog');
 
 // Constants
-const invitationExpiration = config.get('INVITATION_EXPIRATION');
+const { INVITATION_EXPIRATION } = require('../../../config/config');
 
 // @route   POST api/dashboard/family
 // @desc    Register new family
@@ -147,7 +146,7 @@ router.post('/invite', auth, (req, res) => {
           templates.invitationToFamily(
             token.token,
             user.name,
-            invitationExpiration / (60 * 60)
+            INVITATION_EXPIRATION / (60 * 60)
           )
         )
           .then(() =>

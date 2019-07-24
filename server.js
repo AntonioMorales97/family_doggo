@@ -1,18 +1,23 @@
+const dotenvResult = require('dotenv').config();
 const express = require('express');
 const http = require('http');
 //const https = require('https');
 const mongoose = require('mongoose');
 const path = require('path');
-const config = require('config');
 const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const { CLIENT_ORIGIN } = require('./config/config');
+const { CLIENT_ORIGIN, MONGO_URI, COOKIE_SECRET } = require('./config/config');
+
+// Check if require and configure dotenv resulted in error
+if (dotenvResult.error) {
+  throw dotenvResult.error;
+}
 
 const app = express();
 
 // Cookie parser
-app.use(cookieParser(config.get('COOKIE_SECRET')));
+app.use(cookieParser(COOKIE_SECRET));
 
 // Helmet
 app.use(helmet());
@@ -29,7 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // DB Config
-const db = config.get('MONGO_URI');
+const db = MONGO_URI;
 
 // Connect to MongoDB
 mongoose
@@ -64,9 +69,5 @@ const httpServer = http.createServer(app);
 httpServer.listen(port, () =>
   console.log(`HTTP Server started on port ${port}`)
 );
-/*
-const server = app.listen(port, () =>
-  console.log(`Server started on port ${port}`)
-);
-*/
+
 let io = require('./sockets/walks').listen(httpServer);

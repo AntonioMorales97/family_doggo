@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const config = require('config');
+const { COOKIE_USER_TOKEN, JWT_SECRET } = require('../../config/config');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/authentication');
 const {
@@ -37,7 +37,7 @@ router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
 
       jwt.sign(
         { id: user.id, name: user.name },
-        config.get('JWT_SECRET'),
+        JWT_SECRET,
         { expiresIn: 3600 },
         (err, token) => {
           if (err) throw err;
@@ -48,7 +48,7 @@ router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
             signed: true
           };
 
-          res.cookie(config.get('COOKIE_USER_TOKEN'), token, cookieConfig);
+          res.cookie(COOKIE_USER_TOKEN, token, cookieConfig);
           res.status(200).json({
             user: {
               id: user.id,
@@ -66,7 +66,7 @@ router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
 // @desc    Logout user by removing signed cookie 'token'
 // @access  Public
 router.post('/logout', (req, res) => {
-  res.cookie(config.get('COOKIE_USER_TOKEN'), { expires: Date.now() });
+  res.cookie(COOKIE_USER_TOKEN, { expires: Date.now() });
   res.status(200).send();
 });
 

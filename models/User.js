@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const config = require('config');
-const verificationExpiration = config.get('VERIFICATION_EXPIRATION');
+const { VERIFICATION_EXPIRATION } = require('../config/config');
 
 const UserSchema = new Schema({
   name: {
@@ -29,7 +28,7 @@ const UserSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    expires: verificationExpiration
+    expires: VERIFICATION_EXPIRATION
   },
   registrationDate: {
     type: Date,

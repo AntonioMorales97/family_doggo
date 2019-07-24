@@ -1,7 +1,7 @@
 const cookieParser = require('socket.io-cookie-parser');
-const config = require('config');
 const jwt = require('jsonwebtoken');
 const socketIO = require('socket.io');
+const { COOKIE_SECRET, JWT_SECRET } = require('../config/config');
 
 // Clients
 let clients = [];
@@ -20,9 +20,15 @@ function auth(socket, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, config.get('JWT_SECRET'));
-    socket.user = decoded;
-    next();
+    const decoded = jwt.verify(token, JWT_SECRET);
+    User.findOne({ _id: decoded.id }).then(user => {
+      if (!user._familyId) {
+        console.log('User has no family, socket connection refused');
+        return;
+      }
+      socket.user = decoded;
+      next();
+    });
   } catch (err) {
     socket.emit('auth_error', 'Authentication token is not valid');
     console.log('Authentication token was not valid');
@@ -31,7 +37,7 @@ function auth(socket, next) {
 
 module.exports.listen = function(app) {
   io = socketIO.listen(app);
-  io.use(cookieParser(config.get('COOKIE_SECRET')));
+  io.use(cookieParser(COOKIE_SECRET)); //This needs to be first
   io.use(auth); // auth io connection
 
   io.on('connection', async function(socket) {

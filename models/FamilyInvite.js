@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const config = require('config');
-const invitationExpiration = config.get('INVITATION_EXPIRATION');
+const { INVITATION_EXPIRATION } = require('../config/config');
 
 const FamilyInviteSchema = new Schema({
   _userId: {
@@ -23,7 +22,7 @@ const FamilyInviteSchema = new Schema({
     type: Date,
     required: true,
     default: Date.now,
-    expires: invitationExpiration
+    expires: INVITATION_EXPIRATION
   }
 });
 

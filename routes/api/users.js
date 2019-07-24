@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const config = require('config');
 const crypto = require('crypto');
 const {
   userRateLimiter,
@@ -17,8 +16,10 @@ const User = require('../../models/User');
 const VerificationToken = require('../../models/VerificationToken');
 
 // Constants
-const verificationExpiration = config.get('VERIFICATION_EXPIRATION');
-const resetPasswordExpiration = config.get('RESET_PASSWORD_EXPIRATION_MS');
+const {
+  VERIFICATION_EXPIRATION,
+  RESET_PASSWORD_EXPIRATION
+} = require('../../config/config');
 
 // @route   POST api/users
 // @desc    Register new user and wait for verification
@@ -44,7 +45,7 @@ router.post('/', [userRateLimiter, userSlowDown], (req, res) => {
           .json({ msg: 'That email is already registered' });
       } else if (
         Math.abs(user.createdAt - Date.now()) / 1000 <
-        verificationExpiration
+        VERIFICATION_EXPIRATION
       ) {
         return res.status(400).json({
           msg:
@@ -84,11 +85,14 @@ router.post('/', [userRateLimiter, userSlowDown], (req, res) => {
             // Send the email
             sendEmail(
               email,
-              templates.confirm(token.token, verificationExpiration / (60 * 60))
+              templates.confirm(
+                token.token,
+                VERIFICATION_EXPIRATION / (60 * 60)
+              )
             )
               .then(() =>
                 res.status(200).json({
-                  msg: `A verification email has been sent to ${email} and will expire in ${verificationExpiration /
+                  msg: `A verification email has been sent to ${email} and will expire in ${VERIFICATION_EXPIRATION /
                     (60 * 60)} hours. Please verify and then login`
                 })
               )
@@ -158,7 +162,7 @@ router.post('/forgot', [userRateLimiter, userSlowDown], (req, res) => {
     }
 
     user.passwordResetToken = crypto.randomBytes(10).toString('hex');
-    user.passwordResetExpires = Date.now() + resetPasswordExpiration;
+    user.passwordResetExpires = Date.now() + RESET_PASSWORD_EXPIRATION;
 
     user.save().then(user => {
       sendEmail(email, templates.resetPassword(user.passwordResetToken))
