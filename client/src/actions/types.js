@@ -28,16 +28,10 @@ export const RESET_PASSWORD_FAIL = 'RESET_PASSWORD_FAIL';
 export const DASHBOARD_LOADING = 'DASHBOARD_LOADING';
 export const DASHBOARD_LOADED = 'DASHBOARD_LOADED';
 
-// WALKS
-export const GET_WALKS = 'GET_WALKS';
-export const ADD_WALK = 'ADD_WALK';
-export const DELETE_WALK = 'DELETE_WALK';
-export const WALKS_LOADING = 'WALKS_LOADING';
-
 // DOGS
 export const GET_DOGS = 'GET_DOGS';
 export const ADD_DOG = 'ADD_DOG';
-export const ADD_DOG_SUCCESS = 'ADD_DOG_SUCCESS';
+export const ADD_DOG_SUCCESS = 'ADD_DOG_SUCCESS'; //Remove
 export const ADD_DOG_FAIL = 'ADD_DOG_FAIL';
 export const DELETE_DOG = 'DELETE_DOG';
 export const DOGS_LOADING = 'DOGS_LOADING';
@@ -53,3 +47,13 @@ export const INVITE_TO_FAMILY_FAIL = 'INVITE_TO_FAMILY_FAIL';
 export const HAS_FAMILY = 'HAS_FAMILY';
 export const FAMILY_JOIN_SUCCESS = 'FAMILY_JOIN_SUCCESS';
 export const FAMILY_JOIN_FAIL = 'FAMILY_JOIN_FAIL';
+
+// WALKS
+export const WALKS_LOADING = 'WALKS_LOADING';
+export const INITIAL_WALKS = 'INITIAL_WALKS';
+export const ADD_WALK = 'ADD_WALK';
+export const ADD_WALK_FAIL = 'ADD_WALK_FAIL';
+export const DELETE_WALK = 'DELETE_WALK';
+export const DELETE_WALK_FAIL = 'DELETE_WALK_FAIL';
+
+// USE THEESE IN COMPONENTS???

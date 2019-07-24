@@ -9,21 +9,61 @@ import WalkList from '../WalkList';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getDogs } from './../../actions/dogActions';
-import { clearErrors } from './../../actions/errorActions';
-import { clearSuccess } from './../../actions/successActions';
+import {
+  loadInitWalks,
+  addedWalks,
+  deletedWalks
+} from './../../actions/walkActions';
+
+import server from '../../config/config';
+import io from 'socket.io-client';
+import SocketContext from '../../utils/socket-context';
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.socket = io.connect(server);
+  }
+
   static propTypes = {
-    error: PropTypes.object.isRequired,
-    success: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     getDogs: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired,
-    clearSuccess: PropTypes.func.isRequired
+    loadInitWalks: PropTypes.func.isRequired,
+    addedWalks: PropTypes.func.isRequired,
+    deletedWalks: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    this.props.getDogs();
+    if (this.props.auth.hasFamily) {
+      this.props.getDogs();
+      this.setUpSocket();
+      console.log('Has family, load walks');
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const auth = this.props.auth;
+    if (auth.hasFamily !== prevProps.auth.hasFamily) {
+      if (auth.hasFamily) {
+        this.props.getDogs();
+        this.setUpSocket();
+        console.log('Has now family, load walks');
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.socket) {
+      this.socket.disconnect();
+      console.log('Cleanup, closed');
+    }
+  }
+
+  setUpSocket() {
+    //socket = io.connect(server);
+    this.props.loadInitWalks(this.socket);
+    this.props.addedWalks(this.socket);
+    this.props.deletedWalks(this.socket);
   }
 
   render() {
@@ -38,7 +78,9 @@ class Dashboard extends Component {
                     {this.props.auth.hasFamily ? (
                       <Fragment>
                         <div className='mb-1 mb-sm-0'>
-                          <AddWalkModal />
+                          <SocketContext.Provider value={this.socket}>
+                            <AddWalkModal />
+                          </SocketContext.Provider>
                         </div>
                         <div className='ml-0 ml-sm-1 mb-1 mb-sm-0'>
                           <HandleFamilyModal />{' '}
@@ -63,7 +105,9 @@ class Dashboard extends Component {
                         with your best friend
                       </small>
                     </h3>
-                    <WalkList />
+                    <SocketContext.Provider value={this.socket}>
+                      <WalkList />
+                    </SocketContext.Provider>
                   </Fragment>
                 ) : (
                   <h3>Create a family to start adding walks</h3>
@@ -78,12 +122,10 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.error,
-  success: state.success,
   auth: state.auth
 });
 
 export default connect(
   mapStateToProps,
-  { getDogs, clearErrors, clearSuccess }
+  { getDogs, loadInitWalks, addedWalks, deletedWalks }
 )(Dashboard);

@@ -1,4 +1,6 @@
 const express = require('express');
+const http = require('http');
+//const https = require('https');
 const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
@@ -44,6 +46,7 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/dashboard/family', require('./routes/api/dashboard/family'));
 app.use('/api/dashboard/dogs', require('./routes/api/dashboard/dogs'));
+app.use('/api/dashboard/walks', require('./routes/api/dashboard/walks'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
@@ -57,6 +60,13 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 
+const httpServer = http.createServer(app);
+httpServer.listen(port, () =>
+  console.log(`HTTP Server started on port ${port}`)
+);
+/*
 const server = app.listen(port, () =>
   console.log(`Server started on port ${port}`)
 );
+*/
+let io = require('./sockets/walks').listen(httpServer);
