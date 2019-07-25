@@ -6,16 +6,16 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const { CLIENT_ORIGIN, MONGO_URI, COOKIE_SECRET } = require('./config/config');
 
 // Check if require and configure dotenv resulted in error, only if not in production
-// Since .env is not sent to version control
+// Since .env is not sent to version control. Must be early in the start of the app.
 if (!(process.env.NODE_ENV === 'production')) {
   const dotenvResult = require('dotenv').config();
   if (dotenvResult.error) {
     throw dotenvResult.error;
   }
 }
+const { CLIENT_ORIGIN, MONGO_URI, COOKIE_SECRET } = require('./config/config');
 
 const app = express();
 
