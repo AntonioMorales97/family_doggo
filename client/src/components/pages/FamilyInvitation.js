@@ -35,7 +35,6 @@ class Confirm extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      // Check for login error
       if (error.id === 'FAMILY_JOIN_FAIL') {
         this.setState({ msg: error.msg.msg });
         this.setState({ success: false });

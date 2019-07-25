@@ -43,10 +43,8 @@ class ResetPassword extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      // Check for login error
       if (error.id === 'RESET_PASSWORD_FAIL') {
-        this.setState({ errorMsg: error.msg.msg });
-        this.setState({ resetting: false });
+        this.setState({ errorMsg: error.msg.msg, resetting: false });
       } else {
         this.setState({ errorMsg: null });
       }
@@ -54,9 +52,11 @@ class ResetPassword extends Component {
 
     if (success !== prevProps.success) {
       if (success.id === 'RESET_PASSWORD_SUCCESS') {
-        this.setState({ successMsg: success.msg.msg });
-        this.setState({ resetting: false });
-        this.setState({ redirect: true });
+        this.setState({
+          successMsg: success.msg.msg,
+          resetting: false,
+          redirect: true
+        });
       } else {
         this.setState({ successMsg: null });
       }
@@ -68,10 +68,11 @@ class ResetPassword extends Component {
   };
 
   onSubmit = e => {
+    e.preventDefault();
+    if (this.state.resetting) return;
     this.setState({ resetting: true });
     this.props.clearErrors();
     this.props.clearSuccess();
-    e.preventDefault();
 
     const { newPassword, confirmPassword } = this.state;
     const { token } = this.props.match.params;

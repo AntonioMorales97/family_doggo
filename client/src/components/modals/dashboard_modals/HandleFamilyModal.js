@@ -67,6 +67,7 @@ class HandleFamilyModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
+      dogName: '',
       errorMsg: null,
       successMsg: null
     });
@@ -81,6 +82,7 @@ class HandleFamilyModal extends Component {
 
   addDog = e => {
     e.preventDefault();
+    if (this.state.submitting) return;
 
     this.setState({ submitting: true });
     this.props.clearErrors();

@@ -26,7 +26,7 @@ class Register extends Component {
     errorMsg: null,
     successMsg: null,
     redirect: false,
-    sendingEmail: false
+    tryRegister: false
   };
 
   static propTypes = {
@@ -41,10 +41,8 @@ class Register extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      // Check for register error
       if (error.id === 'REGISTER_FAIL') {
-        this.setState({ errorMsg: error.msg.msg });
-        this.setState({ sendingEmail: false });
+        this.setState({ errorMsg: error.msg.msg, tryRegister: false });
       } else {
         this.setState({ errorMsg: null });
       }
@@ -52,9 +50,11 @@ class Register extends Component {
 
     if (success !== prevProps.success) {
       if (success.id === 'REGISTER_SUCCESS') {
-        this.setState({ successMsg: success.msg.msg });
-        this.setState({ redirect: true });
-        this.setState({ sendingEmail: false });
+        this.setState({
+          successMsg: success.msg.msg,
+          tryRegister: false,
+          redirect: true
+        });
       } else {
         this.setState({ successMsg: null });
       }
@@ -66,10 +66,11 @@ class Register extends Component {
   };
 
   onSubmit = e => {
-    this.setState({ sendingEmail: true });
+    e.preventDefault();
+    if (this.state.tryRegister) return;
+    this.setState({ tryRegister: true });
     this.props.clearErrors();
     this.props.clearSuccess();
-    e.preventDefault();
 
     const { name, email, password, repeatPassword } = this.state;
 

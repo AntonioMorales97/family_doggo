@@ -44,20 +44,19 @@ class AddWalkModal extends Component {
     clearSuccess: PropTypes.func.isRequired
   };
 
-  componentDidMount() {}
-
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
       if (error.id === ADD_WALK_FAIL) {
-        this.setState({ errorMsg: error.msg.msg });
+        this.setState({ errorMsg: error.msg.msg, adding: false });
       } else {
-        this.setState({ msg: null });
+        this.setState({ errorMsg: null });
       }
     }
 
     if (success !== prevProps.success) {
       if (success.id === ADD_WALK) {
+        this.setState({ adding: false });
         this.toggle();
         //toastify???
       } else {
@@ -69,7 +68,12 @@ class AddWalkModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
-      errorMsg: null
+      errorMsg: null,
+      selectedDog: null,
+      walkStartTime: '',
+      walkTime: '',
+      poop: false,
+      pee: false
     });
     this.props.clearErrors(); // Clear before/after ourselves
     this.props.clearSuccess(); // Clear before/after ourselves
@@ -92,20 +96,14 @@ class AddWalkModal extends Component {
   };
 
   onSubmit = e => {
-    //this.setState({ submitting: true });
+    e.preventDefault();
+    if (this.state.adding) return;
+    this.setState({ adding: true });
     this.props.clearErrors();
     this.props.clearSuccess();
-    e.preventDefault();
-
-    //const array = this.state.selectedDogs;
-
-    //console.log(array);
-    //console.log('Pee: ' + this.state.pee + ' Poop: ' + this.state.poop);
 
     const { walkStartDate, walkStartTime, walkTime } = this.getTimes();
-    //console.log(walkStartDate + ' ' + walkStartTime + ' ' + walkTime);
     const dogNamesString = this.getDogNamesString();
-    //console.log(dogNamesString);
 
     //TRY TO ADD WALK
     const walk = {
@@ -118,7 +116,6 @@ class AddWalkModal extends Component {
     };
 
     this.props.addWalk(walk, this.props.socket);
-    //console.log(this.props.socket);
   };
 
   // Remove focus on link after click...

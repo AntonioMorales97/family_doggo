@@ -36,12 +36,11 @@ class CreateFamilyModal extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      // Check for login error
       if (error.id === 'REGISTER_FAMILY_FAIL') {
         this.setState({ errorMsg: error.msg.msg, submitting: false });
         this.props.clearErrors(); // Clear state
       } else {
-        this.setState({ msg: null });
+        this.setState({ errorMsg: null });
       }
     }
 
@@ -58,6 +57,7 @@ class CreateFamilyModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
+      familyName: '',
       errorMsg: null
     });
   };
@@ -68,8 +68,9 @@ class CreateFamilyModal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.setState({ submitting: true });
+    if (this.state.submitting) return;
 
+    this.setState({ submitting: true });
     this.props.registerFamily(this.state.familyName);
   };
 

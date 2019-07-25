@@ -47,7 +47,6 @@ class Login extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      // Check for login error
       if (error.id === 'LOGIN_FAIL') {
         this.setState({ errorMsg: error.msg.msg });
         this.setState({ tryLogin: false });
@@ -69,10 +68,11 @@ class Login extends Component {
   }
 
   onSubmit = e => {
+    e.preventDefault();
+    if (this.state.tryLogin) return;
     this.setState({ tryLogin: true });
     this.props.clearErrors();
     this.props.clearSuccess();
-    e.preventDefault();
 
     const { email, password } = this.state;
 

@@ -38,12 +38,10 @@ class ForgotPasswordModal extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      // Check for login error
       if (error.id === 'FORGOT_PASSWORD_FAIL') {
-        this.setState({ errorMsg: error.msg.msg });
-        this.setState({ submitting: false });
+        this.setState({ errorMsg: error.msg.msg, submitting: false });
       } else {
-        this.setState({ msg: null });
+        this.setState({ errorMsg: null });
       }
     }
 
@@ -75,10 +73,11 @@ class ForgotPasswordModal extends Component {
   };
 
   onSubmit = e => {
+    e.preventDefault();
+    if (this.state.submitting) return;
     this.setState({ submitting: true });
     this.props.clearErrors();
     this.props.clearSuccess();
-    e.preventDefault();
 
     // Attempt to send email to reset password...
     this.props.forgotPassword(this.state.email);
