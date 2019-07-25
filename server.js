@@ -1,4 +1,3 @@
-const dotenvResult = require('dotenv').config();
 const express = require('express');
 const http = require('http');
 //const https = require('https');
@@ -9,9 +8,13 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { CLIENT_ORIGIN, MONGO_URI, COOKIE_SECRET } = require('./config/config');
 
-// Check if require and configure dotenv resulted in error
-if (dotenvResult.error) {
-  throw dotenvResult.error;
+// Check if require and configure dotenv resulted in error, only if not in production
+// Since .env is not sent to version control
+if (!(process.env.NODE_ENV === 'production')) {
+  const dotenvResult = require('dotenv').config();
+  if (dotenvResult.error) {
+    throw dotenvResult.error;
+  }
 }
 
 const app = express();
