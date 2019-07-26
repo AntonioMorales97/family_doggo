@@ -14,6 +14,13 @@ import {
 import ConfirmationDialog from '../../ConfirmationDialog';
 import DogList from '../../DogList';
 
+import {
+  ADD_DOG_SUCCESS,
+  ADD_DOG_FAIL,
+  LEAVE_FAMILY_SUCCESS,
+  LEAVE_FAMILY_FAIL
+} from '../../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addDog } from './../../../actions/dogActions';
@@ -42,9 +49,9 @@ class HandleFamilyModal extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'ADD_DOG_FAIL') {
+      if (error.id === ADD_DOG_FAIL) {
         this.setState({ errorMsg: error.msg.msg, submitting: false });
-      } else if (error.id === 'LEAVE_FAMILY_FAIL') {
+      } else if (error.id === LEAVE_FAMILY_FAIL) {
         this.setState({ errorMsg: error.msg.msg });
       } else {
         this.setState({ errorMsg: null });
@@ -52,12 +59,14 @@ class HandleFamilyModal extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'ADD_DOG_SUCCESS') {
+      if (success.id === ADD_DOG_SUCCESS) {
         this.setState({
           submitting: false,
           dogName: '',
           successMsg: success.msg.msg
         });
+      } else if (success.id === LEAVE_FAMILY_SUCCESS) {
+        this.toggle();
       } else {
         this.setState({ successMsg: null });
       }
@@ -93,7 +102,6 @@ class HandleFamilyModal extends Component {
 
   leaveFamily = () => {
     this.props.leaveFamily();
-    this.toggle();
   };
 
   // Remove focus on link after click...

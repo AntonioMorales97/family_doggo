@@ -23,7 +23,7 @@ export const registerFamily = familyName => dispatch => {
         returnErrors(
           err.response.data,
           err.response.status,
-          'REGISTER_FAMILY_FAIL'
+          REGISTER_FAMILY_FAIL
         )
       );
       dispatch({
@@ -42,11 +42,7 @@ export const leaveFamily = () => dispatch => {
     )
     .catch(err => {
       dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'LEAVE_FAMILY_FAIL'
-        )
+        returnErrors(err.response.data, err.response.status, LEAVE_FAMILY_FAIL)
       );
       dispatch({
         type: LEAVE_FAMILY_FAIL
@@ -58,7 +54,7 @@ export const inviteToFamily = email => dispatch => {
   axios
     .post('api/dashboard/family/invite', { email })
     .then(res => {
-      dispatch(returnSuccess(res.data, res.status, 'INVITE_TO_FAMILY_SUCCESS'));
+      dispatch(returnSuccess(res.data, res.status, INVITE_TO_FAMILY_SUCCESS));
       dispatch({
         type: INVITE_TO_FAMILY_SUCCESS
       });
@@ -68,7 +64,7 @@ export const inviteToFamily = email => dispatch => {
         returnErrors(
           err.response.data,
           err.response.status,
-          'INVITE_TO_FAMILY_FAIL'
+          INVITE_TO_FAMILY_FAIL
         )
       );
       dispatch({

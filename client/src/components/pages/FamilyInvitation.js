@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Spinner } from 'reactstrap';
 
+import { FAMILY_JOIN_SUCCESS, FAMILY_JOIN_FAIL } from '../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { acceptFamilyInvite } from './../../actions/authActions';
@@ -35,7 +37,7 @@ class Confirm extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'FAMILY_JOIN_FAIL') {
+      if (error.id === FAMILY_JOIN_FAIL) {
         this.setState({ msg: error.msg.msg });
         this.setState({ success: false });
         this.setState({ confirming: false });
@@ -45,7 +47,7 @@ class Confirm extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'FAMILY_JOIN_SUCCESS') {
+      if (success.id === FAMILY_JOIN_SUCCESS) {
         this.setState({ msg: success.msg.msg });
         this.setState({ success: true });
         this.setState({ confirming: false });

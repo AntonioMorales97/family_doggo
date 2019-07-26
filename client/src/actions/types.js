@@ -5,6 +5,7 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAIL = 'LOGOUT_FAIL';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 
@@ -55,5 +56,3 @@ export const ADD_WALK = 'ADD_WALK';
 export const ADD_WALK_FAIL = 'ADD_WALK_FAIL';
 export const DELETE_WALK = 'DELETE_WALK';
 export const DELETE_WALK_FAIL = 'DELETE_WALK_FAIL';
-
-// USE THEESE IN COMPONENTS???

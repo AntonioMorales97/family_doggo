@@ -16,6 +16,7 @@ import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 
+import { ADD_WALK, ADD_WALK_FAIL } from './../../../actions/types';
 import SocketContext from '../../../utils/socket-context';
 
 import { connect } from 'react-redux';
@@ -23,7 +24,6 @@ import PropTypes from 'prop-types';
 import { addWalk } from '../../../actions/walkActions';
 import { clearErrors } from './../../../actions/errorActions';
 import { clearSuccess } from './../../../actions/successActions';
-import { ADD_WALK, ADD_WALK_FAIL } from './../../../actions/types';
 
 class AddWalkModal extends Component {
   state = {

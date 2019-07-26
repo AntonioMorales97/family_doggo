@@ -11,6 +11,8 @@ import {
   Spinner
 } from 'reactstrap';
 
+import { REGISTER_SUCCESS, REGISTER_FAIL } from '../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/authActions';
@@ -41,7 +43,7 @@ class Register extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'REGISTER_FAIL') {
+      if (error.id === REGISTER_FAIL) {
         this.setState({ errorMsg: error.msg.msg, tryRegister: false });
       } else {
         this.setState({ errorMsg: null });
@@ -49,7 +51,7 @@ class Register extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'REGISTER_SUCCESS') {
+      if (success.id === REGISTER_SUCCESS) {
         this.setState({
           successMsg: success.msg.msg,
           tryRegister: false,

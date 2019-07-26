@@ -8,6 +8,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
+  LOGOUT_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   CONFIRMATION_SUCCESS,
@@ -52,7 +53,7 @@ export const register = ({
   //Simple validation
   if (!name || !email || !password || !repeatPassword) {
     dispatch(
-      returnErrors({ msg: 'Please enter all fields' }, 400, 'REGISTER_FAIL')
+      returnErrors({ msg: 'Please enter all fields' }, 400, REGISTER_FAIL)
     );
     return;
   }
@@ -62,7 +63,7 @@ export const register = ({
       returnErrors(
         { msg: 'Password needs to be at least 6 characters' },
         400,
-        'REGISTER_FAIL'
+        REGISTER_FAIL
       )
     );
     return;
@@ -70,7 +71,7 @@ export const register = ({
 
   if (password !== repeatPassword) {
     dispatch(
-      returnErrors({ msg: 'Passwords do not match!' }, 400, 'REGISTER_FAIL')
+      returnErrors({ msg: 'Passwords do not match!' }, 400, REGISTER_FAIL)
     );
     return;
   }
@@ -88,14 +89,14 @@ export const register = ({
   axios
     .post('/api/users', body, config)
     .then(res => {
-      dispatch(returnSuccess(res.data, res.status, 'REGISTER_SUCCESS'));
+      dispatch(returnSuccess(res.data, res.status, REGISTER_SUCCESS));
       dispatch({
         type: REGISTER_SUCCESS
       });
     })
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
+        returnErrors(err.response.data, err.response.status, REGISTER_FAIL)
       );
       dispatch({
         type: REGISTER_FAIL
@@ -107,9 +108,7 @@ export const register = ({
 export const login = ({ email, password }) => dispatch => {
   // Simple validation
   if (!email || !password) {
-    dispatch(
-      returnErrors({ msg: 'Please enter all fields' }, 400, 'LOGIN_FAIL')
-    );
+    dispatch(returnErrors({ msg: 'Please enter all fields' }, 400, LOGIN_FAIL));
     return;
   }
 
@@ -118,7 +117,7 @@ export const login = ({ email, password }) => dispatch => {
       returnErrors(
         { msg: 'Passwords cannot be shorter than 6 characters' },
         400,
-        'LOGIN_FAIL'
+        LOGIN_FAIL
       )
     );
     return;
@@ -141,7 +140,7 @@ export const login = ({ email, password }) => dispatch => {
         returnSuccess(
           { msg: `Welcome ${res.data.user.name}` },
           res.status,
-          'LOGIN_SUCCESS'
+          LOGIN_SUCCESS
         )
       );
       dispatch({
@@ -156,7 +155,7 @@ export const login = ({ email, password }) => dispatch => {
       if (remainingAttempts) {
         msg = msg + '. Remaining attempts: ' + remainingAttempts;
       }
-      dispatch(returnErrors({ msg }, err.response.status, 'LOGIN_FAIL'));
+      dispatch(returnErrors({ msg }, err.response.status, LOGIN_FAIL));
       dispatch({
         type: LOGIN_FAIL
       });
@@ -172,7 +171,7 @@ export const logout = () => dispatch => {
     })
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, 'LOGOUT_FAIL')
+        returnErrors(err.response.data, err.response.status, LOGOUT_FAIL)
       );
     });
 };
@@ -182,18 +181,14 @@ export const confirm = token => dispatch => {
   axios
     .get(`/api/users/confirmation/${token}`)
     .then(res => {
-      dispatch(returnSuccess(res.data, res.status, 'CONFIRMATION_SUCCESS'));
+      dispatch(returnSuccess(res.data, res.status, CONFIRMATION_SUCCESS));
       dispatch({
         type: CONFIRMATION_SUCCESS
       });
     })
     .catch(err => {
       dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          'CONFIRMATION_FAIL'
-        )
+        returnErrors(err.response.data, err.response.status, CONFIRMATION_FAIL)
       );
       dispatch({
         type: CONFIRMATION_FAIL
@@ -206,14 +201,14 @@ export const acceptFamilyInvite = token => dispatch => {
   axios
     .get(`/api/dashboard/family/join-family/${token}`)
     .then(res => {
-      dispatch(returnSuccess(res.data, res.status, 'FAMILY_JOIN_SUCCESS'));
+      dispatch(returnSuccess(res.data, res.status, FAMILY_JOIN_SUCCESS));
       dispatch({
         type: FAMILY_JOIN_SUCCESS
       });
     })
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, 'FAMILY_JOIN_FAIL')
+        returnErrors(err.response.data, err.response.status, FAMILY_JOIN_FAIL)
       );
       dispatch({
         type: FAMILY_JOIN_FAIL
@@ -224,9 +219,7 @@ export const acceptFamilyInvite = token => dispatch => {
 export const forgotPassword = email => dispatch => {
   // Simple validation
   if (!email) {
-    dispatch(
-      returnErrors({ msg: 'Please enter all fields' }, 400, 'LOGIN_FAIL')
-    );
+    dispatch(returnErrors({ msg: 'Please enter all fields' }, 400, LOGIN_FAIL));
     return;
   }
 
@@ -243,7 +236,7 @@ export const forgotPassword = email => dispatch => {
   axios
     .post('/api/users/forgot', body, config)
     .then(res => {
-      dispatch(returnSuccess(res.data, res.status, 'FORGOT_PASSWORD_SUCCESS'));
+      dispatch(returnSuccess(res.data, res.status, FORGOT_PASSWORD_SUCCESS));
       dispatch({
         type: FORGOT_PASSWORD_SUCCESS
       });
@@ -255,7 +248,7 @@ export const forgotPassword = email => dispatch => {
         msg = msg + '. Remaining attempts: ' + remainingAttempts;
       }
       dispatch(
-        returnErrors({ msg }, err.response.status, 'FORGOT_PASSWORD_FAIL')
+        returnErrors({ msg }, err.response.status, FORGOT_PASSWORD_FAIL)
       );
       dispatch({
         type: FORGOT_PASSWORD_FAIL
@@ -266,11 +259,7 @@ export const forgotPassword = email => dispatch => {
 export const resetPassword = (token, password, confirmPassword) => dispatch => {
   if (!password || !confirmPassword) {
     dispatch(
-      returnErrors(
-        { msg: 'Please enter all fields' },
-        400,
-        'RESET_PASSWORD_FAIL'
-      )
+      returnErrors({ msg: 'Please enter all fields' }, 400, RESET_PASSWORD_FAIL)
     );
     return;
   }
@@ -280,7 +269,7 @@ export const resetPassword = (token, password, confirmPassword) => dispatch => {
       returnErrors(
         { msg: 'Password must be longer than 6 characters!' },
         400,
-        'RESET_PASSWORD_FAIL'
+        RESET_PASSWORD_FAIL
       )
     );
     return;
@@ -288,11 +277,7 @@ export const resetPassword = (token, password, confirmPassword) => dispatch => {
 
   if (password !== confirmPassword) {
     dispatch(
-      returnErrors(
-        { msg: 'Passwords do not match!' },
-        400,
-        'RESET_PASSWORD_FAIL'
-      )
+      returnErrors({ msg: 'Passwords do not match!' }, 400, RESET_PASSWORD_FAIL)
     );
     return;
   }
@@ -310,7 +295,7 @@ export const resetPassword = (token, password, confirmPassword) => dispatch => {
   axios
     .post(`/api/users/reset/${token}`, body, config)
     .then(res => {
-      dispatch(returnSuccess(res.data, res.status, 'RESET_PASSWORD_SUCCESS'));
+      dispatch(returnSuccess(res.data, res.status, RESET_PASSWORD_SUCCESS));
       dispatch({
         type: RESET_PASSWORD_SUCCESS
       });
@@ -320,7 +305,7 @@ export const resetPassword = (token, password, confirmPassword) => dispatch => {
         returnErrors(
           err.response.data,
           err.response.status,
-          'RESET_PASSWORD_FAIL'
+          RESET_PASSWORD_FAIL
         )
       );
       dispatch({

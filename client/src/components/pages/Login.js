@@ -13,6 +13,8 @@ import {
 import ForgotPasswordModal from '../modals/ForgotPasswordModal';
 import { toast } from 'react-toastify';
 
+import { LOGIN_SUCCESS, LOGIN_FAIL } from '../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/authActions';
@@ -47,7 +49,7 @@ class Login extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'LOGIN_FAIL') {
+      if (error.id === LOGIN_FAIL) {
         this.setState({ errorMsg: error.msg.msg });
         this.setState({ tryLogin: false });
       } else {
@@ -56,7 +58,7 @@ class Login extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'LOGIN_SUCCESS') {
+      if (success.id === LOGIN_SUCCESS) {
         toast.dismiss(); //Dismiss all toasts (e.g Cookie Toast)
         this.setState({ successMsg: 'Login successful! :)' });
         this.setState({ tryLogin: false });

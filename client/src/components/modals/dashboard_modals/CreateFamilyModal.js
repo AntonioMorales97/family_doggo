@@ -12,6 +12,11 @@ import {
   Spinner
 } from 'reactstrap';
 
+import {
+  REGISTER_FAMILY_SUCCESS,
+  REGISTER_FAMILY_FAIL
+} from '../../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { registerFamily } from './../../../actions/familyActions';
@@ -36,7 +41,7 @@ class CreateFamilyModal extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'REGISTER_FAMILY_FAIL') {
+      if (error.id === REGISTER_FAMILY_FAIL) {
         this.setState({ errorMsg: error.msg.msg, submitting: false });
         this.props.clearErrors(); // Clear state
       } else {
@@ -45,7 +50,7 @@ class CreateFamilyModal extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'REGISTER_FAMILY_SUCCESS') {
+      if (success.id === REGISTER_FAMILY_SUCCESS) {
         this.setState({ submitting: false });
         this.toggle();
       } else {

@@ -11,6 +11,11 @@ import {
   Button
 } from 'reactstrap';
 
+import {
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAIL
+} from '../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { resetPassword } from './../../actions/authActions';
@@ -43,7 +48,7 @@ class ResetPassword extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'RESET_PASSWORD_FAIL') {
+      if (error.id === RESET_PASSWORD_FAIL) {
         this.setState({ errorMsg: error.msg.msg, resetting: false });
       } else {
         this.setState({ errorMsg: null });
@@ -51,7 +56,7 @@ class ResetPassword extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'RESET_PASSWORD_SUCCESS') {
+      if (success.id === RESET_PASSWORD_SUCCESS) {
         this.setState({
           successMsg: success.msg.msg,
           resetting: false,

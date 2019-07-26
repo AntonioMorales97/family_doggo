@@ -13,6 +13,11 @@ import {
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 
+import {
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAIL
+} from '../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { forgotPassword } from './../../actions/authActions';
@@ -38,7 +43,7 @@ class ForgotPasswordModal extends Component {
   componentDidUpdate(prevProps) {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
-      if (error.id === 'FORGOT_PASSWORD_FAIL') {
+      if (error.id === FORGOT_PASSWORD_FAIL) {
         this.setState({ errorMsg: error.msg.msg, submitting: false });
       } else {
         this.setState({ errorMsg: null });
@@ -46,7 +51,7 @@ class ForgotPasswordModal extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'FORGOT_PASSWORD_SUCCESS') {
+      if (success.id === FORGOT_PASSWORD_SUCCESS) {
         this.setState({ submitting: false });
         toast.success(success.msg.msg, {
           autoClose: 60000,

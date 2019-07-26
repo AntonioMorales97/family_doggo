@@ -12,6 +12,11 @@ import {
   Spinner
 } from 'reactstrap';
 
+import {
+  INVITE_TO_FAMILY_SUCCESS,
+  INVITE_TO_FAMILY_FAIL
+} from '../../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { inviteToFamily } from './../../../actions/familyActions';
@@ -39,7 +44,7 @@ class InviteToFamilyModal extends Component {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
       // Check for login error
-      if (error.id === 'INVITE_TO_FAMILY_FAIL') {
+      if (error.id === INVITE_TO_FAMILY_FAIL) {
         this.setState({ errorMsg: error.msg.msg, submitting: false });
       } else {
         this.setState({ errorMsg: null });
@@ -47,7 +52,7 @@ class InviteToFamilyModal extends Component {
     }
 
     if (success !== prevProps.success) {
-      if (success.id === 'INVITE_TO_FAMILY_SUCCESS') {
+      if (success.id === INVITE_TO_FAMILY_SUCCESS) {
         this.setState({
           successMsg: success.msg.msg,
           errorMsg: null,
@@ -63,7 +68,8 @@ class InviteToFamilyModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
-      errorMsg: null
+      errorMsg: null,
+      email: ''
     });
     this.props.clearErrors(); // Clear before/after ourselves
     this.props.clearSuccess(); // Clear before/after ourselves
