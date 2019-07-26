@@ -41,7 +41,7 @@ module.exports.listen = function(app) {
   io.use(auth); // auth io connection
 
   io.on('connection', async function(socket) {
-    console.log(clients);
+    console.log(`${socket.user.name} connected!`);
     const user = await User.findOne({ _id: socket.user.id }).select(
       '-password'
     );
@@ -49,6 +49,8 @@ module.exports.listen = function(app) {
     let index = clients.findIndex(client => client.id === user._id);
     if (index === -1)
       clients.push({ userId: user._id, familyId: user._familyId });
+
+    console.log(clients);
 
     socket.join(user._familyId);
 
@@ -61,6 +63,7 @@ module.exports.listen = function(app) {
           break;
         }
       }
+      console.log(clients);
     });
 
     Walk.find({ _familyId: user._familyId })
