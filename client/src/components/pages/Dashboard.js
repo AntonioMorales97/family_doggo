@@ -6,6 +6,8 @@ import HandleFamilyModal from '../modals/dashboard_modals/HandleFamilyModal';
 import InviteToFamilyModal from '../modals/dashboard_modals/InviteToFamilyModal';
 import WalkList from '../WalkList';
 
+import { LEAVE_FAMILY_SUCCESS } from '../../actions/types';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getDogs } from './../../actions/dogActions';
@@ -22,11 +24,12 @@ import SocketContext from '../../utils/socket-context';
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.socket = io.connect(server);
+    this.socket = null;
   }
 
   static propTypes = {
     auth: PropTypes.object.isRequired,
+    success: PropTypes.object.isRequired,
     getDogs: PropTypes.func.isRequired,
     loadInitWalks: PropTypes.func.isRequired,
     addedWalks: PropTypes.func.isRequired,
@@ -37,17 +40,24 @@ class Dashboard extends Component {
     if (this.props.auth.hasFamily) {
       this.props.getDogs();
       this.setUpSocket();
-      console.log('Has family, load walks');
     }
   }
 
   componentDidUpdate(prevProps) {
-    const auth = this.props.auth;
+    const { success, auth } = this.props;
+    if (success !== prevProps.success) {
+      if (success.id === LEAVE_FAMILY_SUCCESS) {
+        this.socket.disconnect();
+        this.socket = null;
+      } else {
+        //nothing here for now
+      }
+    }
+
     if (auth.hasFamily !== prevProps.auth.hasFamily) {
       if (auth.hasFamily) {
         this.props.getDogs();
         this.setUpSocket();
-        console.log('Has now family, load walks');
       }
     }
   }
@@ -55,12 +65,11 @@ class Dashboard extends Component {
   componentWillUnmount() {
     if (this.socket) {
       this.socket.disconnect();
-      console.log('Cleanup, closed');
     }
   }
 
   setUpSocket() {
-    //socket = io.connect(server);
+    this.socket = io.connect(server);
     this.props.loadInitWalks(this.socket);
     this.props.addedWalks(this.socket);
     this.props.deletedWalks(this.socket);
@@ -122,7 +131,8 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  success: state.success
 });
 
 export default connect(

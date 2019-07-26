@@ -13,11 +13,12 @@ import { returnSuccess } from './successActions';
 export const registerFamily = familyName => dispatch => {
   axios
     .post('api/dashboard/family', { name: familyName })
-    .then(res =>
+    .then(res => {
+      dispatch(returnSuccess(res.data, res.status, REGISTER_FAMILY_SUCCESS));
       dispatch({
         type: REGISTER_FAMILY_SUCCESS
-      })
-    )
+      });
+    })
     .catch(err => {
       dispatch(
         returnErrors(
@@ -35,11 +36,12 @@ export const registerFamily = familyName => dispatch => {
 export const leaveFamily = () => dispatch => {
   axios
     .get('api/dashboard/family/leave')
-    .then(res =>
+    .then(res => {
+      dispatch(returnSuccess(res.data, res.status, LEAVE_FAMILY_SUCCESS));
       dispatch({
         type: LEAVE_FAMILY_SUCCESS
-      })
-    )
+      });
+    })
     .catch(err => {
       dispatch(
         returnErrors(err.response.data, err.response.status, LEAVE_FAMILY_FAIL)

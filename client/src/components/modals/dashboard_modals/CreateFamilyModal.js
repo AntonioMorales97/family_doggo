@@ -43,7 +43,7 @@ class CreateFamilyModal extends Component {
     if (error !== prevProps.error) {
       if (error.id === REGISTER_FAMILY_FAIL) {
         this.setState({ errorMsg: error.msg.msg, submitting: false });
-        this.props.clearErrors(); // Clear state
+        this.props.clearErrors();
       } else {
         this.setState({ errorMsg: null });
       }
@@ -65,6 +65,8 @@ class CreateFamilyModal extends Component {
       familyName: '',
       errorMsg: null
     });
+    this.props.clearErrors();
+    this.props.clearSuccess();
   };
 
   onChange = e => {
