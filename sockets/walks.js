@@ -73,11 +73,11 @@ module.exports.listen = function(app) {
       });
 
     socket.on('addedWalk', function(walk) {
-      io.to(user._familyId).emit('addedWalk', walk);
+      socket.to(user._familyId).emit('addedWalk', walk);
     });
 
     socket.on('deletedWalk', function(walkId) {
-      io.to(user._familyId).emit('deletedWalk', walkId);
+      socket.to(user._familyId).emit('deletedWalk', walkId);
     });
   });
 
