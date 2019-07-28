@@ -27,6 +27,10 @@ class Dashboard extends Component {
     this.socket = null;
   }
 
+  state = {
+    hasSocket: false
+  };
+
   static propTypes = {
     auth: PropTypes.object.isRequired,
     success: PropTypes.object.isRequired,
@@ -49,8 +53,7 @@ class Dashboard extends Component {
       if (success.id === LEAVE_FAMILY_SUCCESS) {
         this.socket.disconnect();
         this.socket = null;
-      } else {
-        //nothing here for now
+        this.setState({ hasSocket: false });
       }
     }
 
@@ -69,63 +72,64 @@ class Dashboard extends Component {
   }
 
   setUpSocket() {
+    console.log('Setting up socket...');
     this.socket = io.connect(server);
     this.props.loadInitWalks(this.socket);
     this.props.addedWalks(this.socket);
     this.props.deletedWalks(this.socket);
+    this.setState({ hasSocket: true }); //needs to trigger a re-rendering!
+    console.log('Socket is up');
   }
 
   render() {
     return (
-      <section id='dashboard-page'>
-        <div className='dashboard-inner'>
-          <Container>
-            <div className='light-bg'>
-              <Container className='dashboard-container'>
-                <Container className='upper-container'>
-                  <div className='d-block d-sm-flex flex-row justify-content-end'>
-                    {this.props.auth.hasFamily ? (
-                      <Fragment>
-                        <div className='mb-1 mb-sm-0'>
-                          <SocketContext.Provider value={this.socket}>
-                            <AddWalkModal />
-                          </SocketContext.Provider>
-                        </div>
-                        <div className='ml-0 ml-sm-1 mb-1 mb-sm-0'>
-                          <HandleFamilyModal />{' '}
-                        </div>
-                      </Fragment>
-                    ) : null}
-                    <div className='ml-0 ml-sm-1'>
+      <SocketContext.Provider value={this.socket}>
+        <section id='dashboard-page'>
+          <div className='dashboard-inner'>
+            <Container>
+              <div className='light-bg'>
+                <Container className='dashboard-container'>
+                  <Container className='upper-container'>
+                    <div className='d-block d-sm-flex flex-row justify-content-end'>
                       {this.props.auth.hasFamily ? (
-                        <InviteToFamilyModal />
-                      ) : (
-                        <CreateFamilyModal />
-                      )}
+                        <Fragment>
+                          <div className='mb-1 mb-sm-0'>
+                            <AddWalkModal />
+                          </div>
+                          <div className='ml-0 ml-sm-1 mb-1 mb-sm-0'>
+                            <HandleFamilyModal />{' '}
+                          </div>
+                        </Fragment>
+                      ) : null}
+                      <div className='ml-0 ml-sm-1'>
+                        {this.props.auth.hasFamily ? (
+                          <InviteToFamilyModal />
+                        ) : (
+                          <CreateFamilyModal />
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </Container>
-                <hr />
-                {this.props.auth.hasFamily ? (
-                  <Fragment>
-                    <h3>
-                      Walks{' '}
-                      <small className='text-muted'>
-                        with your best friend
-                      </small>
-                    </h3>
-                    <SocketContext.Provider value={this.socket}>
+                  </Container>
+                  <hr />
+                  {this.props.auth.hasFamily ? (
+                    <Fragment>
+                      <h3>
+                        Walks{' '}
+                        <small className='text-muted'>
+                          with your best friend
+                        </small>
+                      </h3>
                       <WalkList />
-                    </SocketContext.Provider>
-                  </Fragment>
-                ) : (
-                  <h3>Create a family to start adding walks</h3>
-                )}
-              </Container>
-            </div>
-          </Container>
-        </div>
-      </section>
+                    </Fragment>
+                  ) : (
+                    <h3>Create a family to start adding walks</h3>
+                  )}
+                </Container>
+              </div>
+            </Container>
+          </div>
+        </section>
+      </SocketContext.Provider>
     );
   }
 }

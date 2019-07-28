@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+import { DELETE_WALK, DELETE_WALK_FAIL } from '../actions/types';
 import SocketContext from './../utils/socket-context';
 
 import { connect } from 'react-redux';
@@ -15,7 +16,31 @@ class WalkList extends Component {
     deleteWalk: PropTypes.func.isRequired
   };
 
+  state = {
+    deleting: false
+  };
+
+  componentDidUpdate(prevProps) {
+    const { success, error } = this.props;
+
+    if (error !== prevProps.error) {
+      if (error.id === DELETE_WALK_FAIL) {
+        this.setState({ deleting: false });
+        //toastify??
+      }
+    }
+
+    if (success !== prevProps.success) {
+      if (success.id === DELETE_WALK) {
+        this.setState({ deleting: false });
+        //toastify???
+      }
+    }
+  }
+
   onDeleteClick = id => {
+    if (this.state.deleting) return;
+    this.setState({ deleting: true });
     this.props.deleteWalk(id, this.props.socket);
   };
 
@@ -71,7 +96,9 @@ class WalkList extends Component {
 
 const mapStateToProps = state => ({
   walk: state.walk,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  success: state.success,
+  error: state.error
 });
 
 const WalkListWithSocket = props => (

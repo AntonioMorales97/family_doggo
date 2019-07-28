@@ -72,22 +72,24 @@ export const deleteWalk = (walkId, socket) => dispatch => {
   axios
     .delete('api/dashboard/walks', { data: { id: walkId } })
     .then(res => {
-      // if walk id did not exist in database
-      if (!res.data.walkId) {
-        return dispatch({
-          type: DELETE_WALK,
-          payload: walkId
-        });
-      }
-
-      socket.emit('deletedWalk', walkId);
+      dispatch(
+        returnSuccess({ msg: 'Walk was deleted!' }, res.status, DELETE_WALK)
+      );
       dispatch({
         type: DELETE_WALK,
         payload: walkId
       });
+
+      // if walk existed in database, tell others in family to remove theirs
+      if (res.data.walkId) {
+        socket.emit('deletedWalk', walkId);
+      }
     })
     .catch(err => {
-      console.log(err.response.data);
+      dispatch({
+        type: DELETE_WALK_FAIL
+      });
+      //console.log(err);
       dispatch(
         returnErrors(err.response.data, err.response.status, DELETE_WALK_FAIL)
       );
