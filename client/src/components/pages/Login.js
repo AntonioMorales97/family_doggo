@@ -13,7 +13,13 @@ import {
 import ForgotPasswordModal from '../modals/ForgotPasswordModal';
 import { toast } from 'react-toastify';
 
-import { LOGIN_SUCCESS, LOGIN_FAIL } from '../../actions/types';
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  REGISTER_SUCCESS,
+  CONFIRMATION_SUCCESS,
+  RESET_PASSWORD_SUCCESS
+} from '../../actions/types';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -41,7 +47,11 @@ class Login extends Component {
 
   componentDidMount() {
     const { success } = this.props;
-    if (success) {
+    if (
+      success.id === REGISTER_SUCCESS ||
+      success.id === CONFIRMATION_SUCCESS ||
+      success.id === RESET_PASSWORD_SUCCESS
+    ) {
       this.setState({ successMsg: success.msg.msg });
     }
   }
