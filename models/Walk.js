@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { WALK_EXPIRATION } = require('../config/config');
 
 const WalkSchema = new Schema({
   _familyId: {
@@ -34,7 +35,12 @@ const WalkSchema = new Schema({
   poop: {
     type: Boolean,
     required: true
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
+    expires: WALK_EXPIRATION
   }
 });
-// SHOULD ADD EXPIRATION FIELD!!!
 module.exports = Walk = mongoose.model('walk', WalkSchema);
