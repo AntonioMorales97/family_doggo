@@ -17,7 +17,8 @@ const User = require('../../models/User');
 // @desc    Try to authenticate user
 // @access  Public
 router.post('/', [loginRateLimiter, loginSlowDown], (req, res) => {
-  const { email, password } = req.body;
+  const { password } = req.body;
+  const email = req.body.email.toLowerCase();
 
   if (!email || !password) {
     return res.status(400).json({ msg: 'Please enter all fields' });

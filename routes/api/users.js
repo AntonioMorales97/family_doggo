@@ -25,7 +25,8 @@ const {
 // @desc    Register new user and wait for verification
 // @access  Public
 router.post('/', [userRateLimiter, userSlowDown], (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, password } = req.body;
+  const email = req.body.email.toLowerCase();
 
   // Simple validation
   if (!name || !email || !password)
@@ -147,7 +148,7 @@ router.get(
 //          to the user if the email exists
 // @access  Public
 router.post('/forgot', [userRateLimiter, userSlowDown], (req, res) => {
-  const { email } = req.body;
+  const email = req.body.email.toLowerCase();
   if (!email) {
     return res.status(400).json({ msg: 'Please enter an email' });
   }
