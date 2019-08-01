@@ -60,7 +60,8 @@ class Home extends Component {
                   <p className='lead'>
                     A simple and easy web application to help families with dogs
                     to keep track on the daily walks. Register and login to
-                    start keeping track on the walks with your best friend!
+                    start keeping track on the walks with your best friend.{' '}
+                    <a href='/register'>Register now!</a>
                   </p>
                 </div>
               </div>
