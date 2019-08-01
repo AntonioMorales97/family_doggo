@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport(credentials);
 
 module.exports = async (to, content) => {
   const contacts = {
-    from: `"Family Dogo" <${credentials.auth.user}>`,
+    from: `"Family Doggo" <${credentials.auth.user}>`,
     to
   };
 

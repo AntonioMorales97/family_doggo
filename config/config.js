@@ -7,7 +7,7 @@ module.exports = {
   COOKIE_USER_TOKEN: 'token',
   COOKIE_SECRET: process.env.COOKIE_SECRET,
   JWT_SECRET: process.env.JWT_SECRET,
-  GMAIL_USERNAME: 'noreplyfamilydog@gmail.com',
+  GMAIL_USERNAME: 'noreplyfamilydoggo@gmail.com',
   GMAIL_PASSWORD: process.env.GMAIL_PASSWORD,
   INVITATION_EXPIRATION: 21600,
   VERIFICATION_EXPIRATION: 21600,

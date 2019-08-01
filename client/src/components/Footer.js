@@ -10,7 +10,7 @@ class Footer extends Component {
           <div className='row'>
             <div className='col text-center'>
               <div className='py-4'>
-                <h1 className='h3'>Family Dogo</h1>
+                <h1 className='h3'>Family Doggo</h1>
                 <p>Copyright &copy; 2019 </p>
                 <CookieInformationModal buttonText='Cookie Policy' />
               </div>
