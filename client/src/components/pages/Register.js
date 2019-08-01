@@ -90,6 +90,7 @@ class Register extends Component {
 
   renderRedirect = () => {
     if (this.state.redirect) return <Redirect to='/login' />;
+    if (this.props.isAuthenticated) return <Redirect to='/dashboard' />; //if already login, redirect to dashboard
   };
 
   render() {
