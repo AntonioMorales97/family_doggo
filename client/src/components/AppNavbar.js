@@ -61,6 +61,11 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
+          <NavLink style={navLinkStyle} tag={Link} to='/'>
+            Home
+          </NavLink>
+        </NavItem>
+        <NavItem>
           <NavLink style={navLinkStyle} tag={Link} to='/dashboard'>
             Dashboard
           </NavLink>
