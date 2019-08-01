@@ -22,6 +22,12 @@ function auth(socket, next) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     User.findOne({ _id: decoded.id }).then(user => {
+      if (!user) {
+        console.log(
+          'User id from token does not exist, socket connection refused'
+        );
+        return;
+      }
       if (!user._familyId) {
         console.log('User has no family, socket connection refused');
         return;
