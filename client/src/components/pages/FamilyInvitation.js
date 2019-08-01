@@ -60,7 +60,7 @@ class Confirm extends Component {
   render() {
     return (
       <Container>
-        <div className='confirm d-flex justify-content-center align-items-center'>
+        <div className='family-invitation d-flex justify-content-center align-items-center'>
           {this.state.confirming ? (
             <Spinner size='lg' color='primary' />
           ) : (

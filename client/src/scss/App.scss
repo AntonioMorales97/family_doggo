@@ -152,8 +152,11 @@ body {
 }
 
 // CONFIRM-PAGE
-.confirm {
+.confirm,
+.family-invitation,
+.not-found {
   min-height: calc(100vh - 120px);
+  padding-top: 80px;
 
   .fas {
     font-size: 100px;
