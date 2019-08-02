@@ -2,10 +2,11 @@ import axios from 'axios';
 import {
   GET_DOGS,
   ADD_DOG,
+  ADD_DOG_FAIL,
   DELETE_DOG,
   DOGS_LOADING,
-  ADD_DOG_SUCCESS,
-  DOGS_LOADING_FAIL
+  DOGS_LOADING_FAIL,
+  DELETE_DOG_FAIL
 } from './types';
 import { returnErrors } from './errorActions';
 import { returnSuccess } from './successActions';
@@ -36,13 +37,14 @@ export const addDog = name => dispatch => {
         returnSuccess(
           { msg: `Successfully added ${name} to the family!` },
           res.status,
-          'ADD_DOG_SUCCESS'
+          ADD_DOG
         )
       );
-      dispatch({ type: ADD_DOG_SUCCESS });
     })
     .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
+      dispatch(
+        returnErrors(err.response.data, err.response.status, ADD_DOG_FAIL)
+      )
     );
 };
 
@@ -50,14 +52,17 @@ export const deleteDog = id => dispatch => {
   dispatch(setDogsLoading());
   axios
     .delete('api/dashboard/dogs', { data: { dog: id } })
-    .then(res =>
+    .then(res => {
       dispatch({
         type: DELETE_DOG,
         payload: id
-      })
-    )
+      });
+      dispatch(returnSuccess({ msg: res.data.msg }, res.status, DELETE_DOG));
+    })
     .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
+      dispatch(
+        returnErrors(err.response.data, err.response.status, DELETE_DOG_FAIL)
+      )
     );
 };
 

@@ -32,9 +32,9 @@ export const DASHBOARD_LOADED = 'DASHBOARD_LOADED';
 // DOGS
 export const GET_DOGS = 'GET_DOGS';
 export const ADD_DOG = 'ADD_DOG';
-export const ADD_DOG_SUCCESS = 'ADD_DOG_SUCCESS'; //Remove
 export const ADD_DOG_FAIL = 'ADD_DOG_FAIL';
 export const DELETE_DOG = 'DELETE_DOG';
+export const DELETE_DOG_FAIL = 'DELETE_DOG_FAIL';
 export const DOGS_LOADING = 'DOGS_LOADING';
 export const DOGS_LOADING_FAIL = 'DOGS_LOADING_FAIL';
 

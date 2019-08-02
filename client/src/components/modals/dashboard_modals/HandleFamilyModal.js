@@ -15,10 +15,12 @@ import ConfirmationDialog from '../../ConfirmationDialog';
 import DogList from '../../DogList';
 
 import {
-  ADD_DOG_SUCCESS,
+  ADD_DOG,
   ADD_DOG_FAIL,
   LEAVE_FAMILY_SUCCESS,
-  LEAVE_FAMILY_FAIL
+  LEAVE_FAMILY_FAIL,
+  DELETE_DOG,
+  DELETE_DOG_FAIL
 } from '../../../actions/types';
 
 import { connect } from 'react-redux';
@@ -53,13 +55,13 @@ class HandleFamilyModal extends Component {
         this.setState({ errorMsg: error.msg.msg, submitting: false });
       } else if (error.id === LEAVE_FAMILY_FAIL) {
         this.setState({ errorMsg: error.msg.msg });
-      } else {
-        this.setState({ errorMsg: null });
+      } else if (error.id === DELETE_DOG_FAIL) {
+        this.setState({ errorMsg: error.msg.msg });
       }
     }
 
     if (success !== prevProps.success) {
-      if (success.id === ADD_DOG_SUCCESS) {
+      if (success.id === ADD_DOG) {
         this.setState({
           submitting: false,
           dogName: '',
@@ -67,8 +69,8 @@ class HandleFamilyModal extends Component {
         });
       } else if (success.id === LEAVE_FAMILY_SUCCESS) {
         this.toggle();
-      } else {
-        this.setState({ successMsg: null });
+      } else if (success.id === DELETE_DOG) {
+        this.setState({ successMsg: success.msg.msg });
       }
     }
   }
