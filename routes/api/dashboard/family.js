@@ -100,7 +100,7 @@ router.get('/leave', auth, (req, res) => {
 // @access  Private
 router.post('/invite', auth, (req, res) => {
   const { user } = req;
-  const { email } = req.body;
+  const email = req.body.email.toLowerCase();
 
   if (!email)
     return res.status(400).json({ msg: 'Enter email to send invitation' });
