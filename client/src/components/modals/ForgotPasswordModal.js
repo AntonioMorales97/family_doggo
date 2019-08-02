@@ -58,8 +58,6 @@ class ForgotPasswordModal extends Component {
           position: toast.POSITION.TOP_CENTER
         });
         this.toggle();
-      } else {
-        this.setState({ msg: null });
       }
     }
   }

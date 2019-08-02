@@ -53,8 +53,6 @@ class CreateFamilyModal extends Component {
       if (success.id === REGISTER_FAMILY_SUCCESS) {
         this.setState({ submitting: false });
         this.toggle();
-      } else {
-        this.setState({ msg: null });
       }
     }
   }

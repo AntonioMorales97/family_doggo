@@ -57,6 +57,8 @@ class HandleFamilyModal extends Component {
         this.setState({ errorMsg: error.msg.msg });
       } else if (error.id === DELETE_DOG_FAIL) {
         this.setState({ errorMsg: error.msg.msg });
+      } else {
+        this.setState({ errorMsg: null });
       }
     }
 
@@ -71,6 +73,8 @@ class HandleFamilyModal extends Component {
         this.toggle();
       } else if (success.id === DELETE_DOG) {
         this.setState({ successMsg: success.msg.msg });
+      } else {
+        this.setState({ successMsg: null });
       }
     }
   }

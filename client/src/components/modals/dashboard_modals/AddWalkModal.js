@@ -59,8 +59,6 @@ class AddWalkModal extends Component {
         this.setState({ adding: false });
         this.toggle();
         //toastify???
-      } else {
-        this.setState({ msg: null });
       }
     }
   }
