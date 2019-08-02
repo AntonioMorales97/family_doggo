@@ -170,9 +170,8 @@ export const logout = () => dispatch => {
       dispatch({ type: LOGOUT_SUCCESS });
     })
     .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, LOGOUT_FAIL)
-      );
+      console.log(err);
+      dispatch({ type: LOGOUT_FAIL });
     });
 };
 

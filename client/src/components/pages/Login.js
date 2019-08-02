@@ -60,8 +60,7 @@ class Login extends Component {
     const { error, success } = this.props;
     if (error !== prevProps.error) {
       if (error.id === LOGIN_FAIL) {
-        this.setState({ errorMsg: error.msg.msg });
-        this.setState({ tryLogin: false });
+        this.setState({ errorMsg: error.msg.msg, tryLogin: false });
       } else {
         this.setState({ errorMsg: null });
       }
@@ -70,8 +69,7 @@ class Login extends Component {
     if (success !== prevProps.success) {
       if (success.id === LOGIN_SUCCESS) {
         toast.dismiss(); //Dismiss all toasts (e.g Cookie Toast)
-        this.setState({ successMsg: 'Login successful! :)' });
-        this.setState({ tryLogin: false });
+        this.setState({ successMsg: 'Login successful! :)', tryLogin: false });
         this.props.clearSuccess(); // Do not save...
       } else {
         this.setState({ successMsg: null });
