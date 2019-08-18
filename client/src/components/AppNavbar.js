@@ -25,9 +25,12 @@ class AppNavbar extends Component {
   };
 
   toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+    // Only toggle when it is a "hamburger menu/dropdown"
+    if (window.outerWidth < 576) {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
+    }
   };
 
   collapseOnEnter = () => {
@@ -39,7 +42,14 @@ class AppNavbar extends Component {
   };
 
   handleClick = e => {
-    e.preventDefault();
+    // e.preventDefault();
+    // Check if the window has grown. Happens only if window is resized
+    // when hamburger menu / dropdown is still open, i.e eventListeners are still alive.
+    if (window.outerWidth >= 576) {
+      this.collapseOnExit(); // remove event listener
+      this.setState({ isOpen: false }); // set to closed
+      return;
+    }
     if (this.navbar.contains(e.target)) {
       // Click is inside
       return;
@@ -54,17 +64,27 @@ class AppNavbar extends Component {
     const guestLinks = (
       <Fragment>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/'>
+          <NavLink style={navLinkStyle} tag={Link} to='/' onClick={this.toggle}>
             Home
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/register'>
+          <NavLink
+            style={navLinkStyle}
+            tag={Link}
+            to='/register'
+            onClick={this.toggle}
+          >
             Register
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/login'>
+          <NavLink
+            style={navLinkStyle}
+            tag={Link}
+            to='/login'
+            onClick={this.toggle}
+          >
             Login
           </NavLink>
         </NavItem>
@@ -79,16 +99,21 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/'>
+          <NavLink style={navLinkStyle} tag={Link} to='/' onClick={this.toggle}>
             Home
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/dashboard'>
+          <NavLink
+            style={navLinkStyle}
+            tag={Link}
+            to='/dashboard'
+            onClick={this.toggle}
+          >
             Dashboard
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem onClick={this.toggle}>
           <Logout />
         </NavItem>
       </Fragment>
