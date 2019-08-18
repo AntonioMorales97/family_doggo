@@ -28,7 +28,8 @@ app.use(helmet());
 // Only allow request from the client
 app.use(
   cors({
-    origin: CLIENT_ORIGIN
+    origin: CLIENT_ORIGIN,
+    optionsSuccessStatus: 200
   })
 );
 
