@@ -54,27 +54,17 @@ class AppNavbar extends Component {
     const guestLinks = (
       <Fragment>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/' onClick={this.toggle}>
+          <NavLink style={navLinkStyle} tag={Link} to='/'>
             Home
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink
-            style={navLinkStyle}
-            tag={Link}
-            to='/register'
-            onClick={this.toggle}
-          >
+          <NavLink style={navLinkStyle} tag={Link} to='/register'>
             Register
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink
-            style={navLinkStyle}
-            tag={Link}
-            to='/login'
-            onClick={this.toggle}
-          >
+          <NavLink style={navLinkStyle} tag={Link} to='/login'>
             Login
           </NavLink>
         </NavItem>
@@ -89,21 +79,16 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/' onClick={this.toggle}>
+          <NavLink style={navLinkStyle} tag={Link} to='/'>
             Home
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink
-            style={navLinkStyle}
-            tag={Link}
-            to='/dashboard'
-            onClick={this.toggle}
-          >
+          <NavLink style={navLinkStyle} tag={Link} to='/dashboard'>
             Dashboard
           </NavLink>
         </NavItem>
-        <NavItem onClick={this.toggle}>
+        <NavItem>
           <Logout />
         </NavItem>
       </Fragment>
