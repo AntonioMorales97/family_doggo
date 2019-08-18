@@ -30,23 +30,51 @@ class AppNavbar extends Component {
     });
   };
 
+  collapseOnEnter = () => {
+    document.addEventListener('mousedown', this.handleClick, false);
+  };
+
+  collapseOnExit = () => {
+    document.removeEventListener('mousedown', this.handleClick, false);
+  };
+
+  handleClick = e => {
+    e.preventDefault();
+    if (this.navbar.contains(e.target)) {
+      // Click is inside
+      return;
+    }
+    // Click is outside, toggle.
+    this.toggle();
+  };
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
 
     const guestLinks = (
       <Fragment>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/'>
+          <NavLink style={navLinkStyle} tag={Link} to='/' onClick={this.toggle}>
             Home
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/register'>
+          <NavLink
+            style={navLinkStyle}
+            tag={Link}
+            to='/register'
+            onClick={this.toggle}
+          >
             Register
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/login'>
+          <NavLink
+            style={navLinkStyle}
+            tag={Link}
+            to='/login'
+            onClick={this.toggle}
+          >
             Login
           </NavLink>
         </NavItem>
@@ -61,30 +89,40 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/'>
+          <NavLink style={navLinkStyle} tag={Link} to='/' onClick={this.toggle}>
             Home
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink style={navLinkStyle} tag={Link} to='/dashboard'>
+          <NavLink
+            style={navLinkStyle}
+            tag={Link}
+            to='/dashboard'
+            onClick={this.toggle}
+          >
             Dashboard
           </NavLink>
         </NavItem>
-        <NavItem>
+        <NavItem onClick={this.toggle}>
           <Logout />
         </NavItem>
       </Fragment>
     );
 
     return (
-      <div>
+      <div ref={navbar => (this.navbar = navbar)}>
         <Navbar color='dark' dark expand='sm' className='mb-3 fixed-top'>
           <Container>
             <NavbarBrand href='/'>
               <h4>Family Doggo</h4>
             </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
+            <Collapse
+              isOpen={this.state.isOpen}
+              navbar
+              onEnter={this.collapseOnEnter}
+              onExit={this.collapseOnExit}
+            >
               <Nav className='ml-auto' navbar>
                 {isAuthenticated ? authLinks : guestLinks}
               </Nav>
