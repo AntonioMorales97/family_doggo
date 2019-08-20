@@ -18,20 +18,14 @@ $icon-size: 30px;
 
 // Media Query Mixins
 //xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px
-@mixin mediaXs {
-  @media screen and (max-width: 575px) {
-    @content;
-  }
-}
-
 @mixin mediaSm {
-  @media screen and (max-width: 576px) {
+  @media screen and (min-width: 576px) {
     @content;
   }
 }
 
 @mixin mediaMd {
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 768px) {
     @content;
   }
 }
