@@ -56,7 +56,7 @@ module.exports.listen = function(app) {
     if (index === -1)
       clients.push({ userId: user._id, familyId: user._familyId });
 
-    console.log(clients);
+    //console.log(clients);
 
     socket.join(user._familyId);
 
@@ -69,7 +69,7 @@ module.exports.listen = function(app) {
           break;
         }
       }
-      console.log(clients);
+      //console.log(clients);
     });
 
     Walk.find({ _familyId: user._familyId })
