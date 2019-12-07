@@ -1,13 +1,13 @@
 const nodemailer = require('nodemailer');
-const { GMAIL_USERNAME, GMAIL_PASSWORD } = require('../config/config');
+const { MAIL_USERNAME, MAIL_PASSWORD } = require('../config/config');
 
 const credentials = {
   host: 'smtp.gmail.com',
   port: 465,
   secure: true,
   auth: {
-    user: GMAIL_USERNAME,
-    pass: GMAIL_PASSWORD
+    user: MAIL_USERNAME,
+    pass: MAIL_PASSWORD
   }
 };
 

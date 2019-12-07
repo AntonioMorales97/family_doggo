@@ -132,9 +132,7 @@ router.get(
         user.createdAt = undefined;
         user.save().then(user => {
           res.status(200).json({
-            msg: `Welcome ${
-              user.name
-            }, your account has been verified. Please log in.`
+            msg: `Welcome ${user.name}, your account has been verified. Please log in.`
           });
         });
       });
@@ -185,10 +183,11 @@ router.post('/reset/:token', [userRateLimiter, userSlowDown], (req, res) => {
     passwordResetToken: req.params.token,
     passwordResetExpires: { $gt: Date.now() }
   }).then(user => {
-    if (!user)
+    if (!user) {
       return res.status(400).json({
         msg: 'The password reset token is invalid or has already expired'
       });
+    }
 
     const { password, confirmPassword } = req.body;
     if (!password || !confirmPassword)
@@ -215,9 +214,7 @@ router.post('/reset/:token', [userRateLimiter, userSlowDown], (req, res) => {
           sendEmail(user.email, templates.resetPasswordConfirmation(user.email))
             .then(() =>
               res.status(200).json({
-                msg: `Password changed successfully. An email confirmation has been sent to ${
-                  user.email
-                }`
+                msg: `Password changed successfully. An email confirmation has been sent to ${user.email}`
               })
             )
             .catch(err => res.status(500).json({ msg: err.message }));
